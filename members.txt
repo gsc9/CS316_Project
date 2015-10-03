@@ -8,7 +8,7 @@ Time Spent: 2.5 Hours
 Details: Whole group met to plan project. Discussed project, drew E/R diagrams, designed schema, thought of new features, mocked up interface on white board, figured what what language (django) to use for our website, set up database software on our own computers, and created a github for the project.
 
 Date: 3 October 2015
-Time Spent: 1.5 meeting
+Time Spent: 1.5 hours
 Details: Modified E/R Diagram to take into account professor's feedback, planned for accounting for supply and demand of ingredients, modified mockups, distributed final bits of work required to complete project milestone, came up with project, 
 
 
