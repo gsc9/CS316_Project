@@ -9,13 +9,12 @@ Details: Whole group met to plan project. Discussed project, drew E/R diagrams, 
 
 Date: 3 October 2015
 Time Spent: 1.5 hours
-Details: Modified E/R Diagram to take into account professor's feedback, planned for accounting for supply and demand of ingredients, modified mockups, distributed final bits of work required to complete project milestone, came up with project, 
+Details: Modified E/R Diagram to take into account professor's feedback, planned for accounting for supply and demand of ingredients, modified mockups, distributed final bits of work required to complete project milestone, came up with project 
 
-
-Annie Yang - Designed mockups and uploaded pictures to google doc
+Annie Yang - Made mockups and uploaded pictures to google doc
 Martin Tamayo - Database assumptions and formatted for google doc
-Grant Kelly - description and sample data
-Grace Chen - designed E/R diagrams and wrote schemas
+Grant Kelly - Wrote description and sample data
+Grace Chen - Designed E/R diagrams and wrote schemas
 
 
 Possible group names:
@@ -23,7 +22,7 @@ Possible group names:
   myBBQ, etc.
   Plan My Potluck (PmP)
   PotluckMe
-  CrowdsourcedContributions (CrowdCon)
+  *CrowdsourcedContributions (CrowdCon)
   Help Me Make my Dinner (H3MD)
   GroupMeat (and Vegetables)
   Potluckulator
@@ -31,7 +30,7 @@ Possible group names:
   EatTime
   PotluckNation
 
-  CrowdCon - Okay, this might be a hard sell, but imagine a picture of kraken (i.e. a giant mythological squid that terrorizes Jonny Depp (in the picture he is not actually terrifying jonny depp but you get the idea)) with a different application for the use of our planning tool symbolized in  objects in each of his tenticle hands. This would show how we can use the tool not just for potlucks, but anything your imagination might desire and user agreement (within the constraints of our database). Examples include potluck, pit orchestras, and costumes for a play.
+  * CrowdCon - Okay, this might be a hard sell, but imagine a picture of a kraken (i.e. a giant mythological squid that terrorizes Johnny Depp (in the picture he is not actually terrifying Johnny Depp but you get the idea)) with a different application for the use of our planning tool symbolized in objects in each of his tenticle hands. This would show how we can use the tool not just for potlucks, but anything your imagination might desire and user agreement (within the constraints of our database). Examples include potluck, pit orchestras, and costumes for a play.
   
   
   
