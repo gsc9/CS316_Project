@@ -1,9 +1,9 @@
 #CS316 Project
 
 ##Members:
-Annie Yang
-Martin Tamayo
-Grant Kelly
+Annie Yang, 
+Martin Tamayo, 
+Grant Kelly, 
 Grace Chen
 
 ##Description
