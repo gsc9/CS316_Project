@@ -125,43 +125,37 @@ INSERT INTO Who_Buys VALUES(‘Ground Beef’, grant.kelly@duke.edu, 4, 2, NULL)
 --Retrieve list of users.
 SELECT username FROM User;
 
---Retrieve all events that a given user is attending.
+--Retrieve all events that a given user is attending (e.g. username = “Grant Kelly”, current date = “10 / 20 / 2015”, current time = “11:00”).
+SELECT Event.title FROM User, Part_Of, Event WHERE User.username = “Grant Kelly” AND User.email = Part_Of.email AND Part_Of.eid = Event.eid AND (Event.date > “10 / 20 / 2015” OR (Event.date = “10 / 20 / 2015” AND Event.time > “11:00”));
+
+--Retrieve all events that a given user has attended (e.g. username = “Grant Kelly”, current date = “10 / 20 / 2015”, current time = “11:00”).
+(SELECT Event.title FROM User, Part_Of, Event WHERE User.username = “Grant Kelly” AND User.email = Part_Of.email AND Part_Of.eid = Event.eid) EXCEPT (SELECT Event.title FROM User, Part_Of, Event WHERE User.username = “Grant Kelly” AND User.email = Part_Of.email AND Part_Of.eid = Event.eid AND (Event.date > “10 / 20 / 2015” OR (Event.date = “10 / 20 / 2015” AND Event.time > “11:00”)));
+
+--Retrieve all users attending a given event (e.g. eid = 2).
+SELECT User.username FROM User, Part_Of, Event WHERE Event.eid = 2 AND User.email = Part_Of.email AND Part_Of.eid = Event.eid;
+
+--Retrieve the details for one given event (e.g. eid = 2).
+SELECT title, date, time, location, description FROM Event WHERE eid = 2;
+
+--Retrieve list of items a user has committed to bringing to an event (e.g. username = “Grant Kelly”, eid = 2).
+SELECT Who_Buys.name, Who_Buys.bringing FROM User, Who_Buys WHERE User.username = “Grant Kelly” AND Who_Buys.eid = 2 AND User.email = Who_Buys.email;
+
+--Retrieve all event ingredients for a specific potluck (e.g. eid = 2).
+SELECT name, quantity, units, comments FROM Event_Ingredient WHERE eid = 2;
+
+--Retrieve list of items used in other events that have other items in common with a given event.  (_% of events that used ingredient _ also used another ingredient _ (complicated...))
 
 
---Divide these events into events that have yet to happen / are currently happening versus events that are already over.
+--Retrieve who signed up to buy which items for a given event (e.g. eid = 2, item name = “Soda”).
+SELECT User.username, Who_Buys.bringing FROM User, Who_Buys WHERE User.email = Who_Buys.email AND Who_Buys.eid = 2 AND Who_Buys.name = “Soda”;
 
-
---Retrieve all users attending a given event.
-
-
---Retrieve the details for one given event.
-
-
---Retrieve list of items a user has committed to bringing to an event.
-
-
---Retrieve all event ingredients for a specific potluck.
-
-
---Retrieve list of items used in other events that have other items in common with a given event.  (_% of events that used ingredient _ also used another ingredient _ (complicated))
-
-
---Retrieve who signed up to buy which items for a given event
-
-
---Retrieve the users that haven’t signed up to buy anything
-
+--Retrieve the users that haven’t signed up to buy anything for a given event (e.g. eid = 2).
+(SELECT User.username FROM User, Part_Of WHERE User.email = Part_Of.email AND Part_Of.eid = 2) EXCEPT (SELECT User.username FROM User, Who_Buys WHERE User.email = Who_Buys.email AND Who_Buys.eid = 2);
 
 --Retrieve list of ingredients.
 SELECT name FROM Ingredient;
 
---Retrieve ingredients that have not been signed up for (at all) in a specific event
-SELECT name, eid
-FROM Event_Ingredient
-WHERE NOT EXISTS (SELECT name AS notTaken
-		FROM whoBuys
-		WHERE name = notTaken); //EID??
+--Retrieve ingredients that have not been signed up for (at all) in a specific event (e.g. eid = 2).
+(SELECT name FROM Event_Ingredient WHERE eid = 2) EXCEPT ALL (SELECT name FROM Who_Buys WHERE eid = 2);
 
---Retrieve ingredients that do not have enough people signed up for them in a specific event
-SELECT name
-FROM Event_Ingredient, whoBuys
+--Retrieve ingredients that do not have enough people signed up for them in a specific event (e.g. eid = 2).

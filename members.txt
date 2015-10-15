@@ -12,7 +12,7 @@ Time Spent: 1.5 hours
 Details: Modified E/R Diagram to take into account professor's feedback, planned for accounting for supply and demand of ingredients, modified mockups, distributed final bits of work required to complete project milestone, came up with project 
 
 Annie Yang - Made mockups and uploaded pictures to google doc
-Martin Tamayo - Database assumptions and formatted for google doc
+Martin Tamayo - Database assumptions and test SQL statements
 Grant Kelly - Wrote description and sample data
 Grace Chen - Designed E/R diagrams and wrote schemas
 
