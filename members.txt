@@ -5,16 +5,19 @@ Group Work
 ==============
 Date: 26 Sept 2015
 Time Spent: 2.5 Hours
-Details: Whole group met to plan project. Discussed project, drew E/R diagrams, designed schema, thought of new features, mocked up interface on white board, figured what what language (django) to use for our website, set up database software on our own computers, and created a github for the project.
+Details: Whole group met to plan project. Discussed project, drew E/R diagrams, designed schema, thought of new features, 
+mocked up interface on white board, figured what what language (django) to use for our website, set up database software on 
+our own computers, and created a github for the project.
 
 Date: 3 October 2015
 Time Spent: 1.5 hours
-Details: Modified E/R Diagram to take into account professor's feedback, planned for accounting for supply and demand of ingredients, modified mockups, distributed final bits of work required to complete project milestone, came up with project 
+Details: Modified E/R Diagram to take into account professor's feedback, planned for accounting for supply and demand of 
+ingredients, modified mockups, distributed final bits of work required to complete project milestone, came up with project 
 
-Annie Yang - Made mockups and uploaded pictures to google doc
-Martin Tamayo - Database assumptions and formatted for google doc
-Grant Kelly - Wrote description and sample data
-Grace Chen - Designed E/R diagrams and wrote schemas
+Annie Yang - Made mockups and uploaded pictures to Google doc
+Martin Tamayo - Database assumptions, formatted for Google doc, and SQL queries
+Grant Kelly - Wrote description of project on write-up and sample data
+Grace Chen - Designed E/R diagrams, made group logo, and wrote schemas (although schemas were finalized by the whole group)
 
 
 Possible group names:
@@ -30,9 +33,13 @@ Possible group names:
   EatTime
   PotluckNation
 
-  * CrowdCon - Okay, this might be a hard sell, but imagine a picture of a kraken (i.e. a giant mythological squid that terrorizes Johnny Depp (in the picture he is not actually terrifying Johnny Depp but you get the idea)) with a different application for the use of our planning tool symbolized in objects in each of his tenticle hands. This would show how we can use the tool not just for potlucks, but anything your imagination might desire and user agreement (within the constraints of our database). Examples include potluck, pit orchestras, and costumes for a play.
+  * CrowdCon - Okay, this might be a hard sell, but imagine a picture of a kraken (i.e. a giant mythological squid that 
+  terrorizes Johnny Depp (in the picture he is not actually terrifying Johnny Depp but you get the idea)) with a different 
+  application for the use of our planning tool symbolized in objects in each of his tenticle hands. This would show how we 
+  can use the tool not just for potlucks, but anything your imagination might desire and user agreement (within the 
+  constraints of our database). Examples include potluck, pit orchestras, and costumes for a play.
   
-  
+It seems like we are going with CrowdsourceContribution (CrowdCon), but this is open to change!  
   
   
   
