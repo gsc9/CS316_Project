@@ -63,7 +63,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': PROJ_NAME,                                  # Or path to database file if using sqlite3.
-        'USER': 'annie',                # Not used with sqlite3.
+        'USER': 'vagrant',                # Not used with sqlite3.
         'PASSWORD': 'dbpasswd',          # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
@@ -118,3 +118,4 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 # from django.conf.global_settings import ...
 execfile(os.path.join(PROJ_ROOT, PROJ_NAME, 'settings_social_auth.py'))
 execfile(os.path.join(PROJ_ROOT, PROJ_NAME, 'settings_beers.py'))
+execfile(os.path.join(PROJ_ROOT, PROJ_NAME, 'settings_beers_alt.py'))
