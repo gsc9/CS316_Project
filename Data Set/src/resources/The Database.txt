@@ -1,0 +1,54 @@
+User:
+
+email			-	user.name@example.com (must be unique).
+username		-	First and Last names taken from lists.
+
+
+Event:
+
+eid				-	Counter.
+title			-	Random title taken from a list.
+date			-	Random date between 2010 and 2020.
+time			-	Random time between 8:00 and 22:00.
+location		-	Random locations taken from a list: https://wiki.skullsecurity.org/images/5/54/US_Cities.txt
+description		-	Random sentence taken from a list.
+
+
+Ingredient:
+
+ingredient_name	-	Copy down a list: http://www.enchantedlearning.com/wordlist/food.shtml
+
+
+Event_Ingredient:
+
+ingredient_name	-	Take from Ingredient table.
+eid				-	Take from Event table.
+quantity		-	Random number from an array.
+units			-	Random choice from an array.
+host_comments	-	Random sentence taken from a list.
+
+
+Part_Of:
+
+email			-	Random from User table.
+eid				-	Random from Event table.
+is_admin		-	First time true. After that, 90% true, 10% false.
+
+
+Who_Buys:
+
+email			-	Random from Part_Of table.
+eid				-	Random from Part_Of table.
+ingredient_name	-	Random from Event_Ingredient table where the eids match.
+bringing		-	Random number up to quantity in Event_Ingredient table, update actual quantity needed.
+user_comments	-	Random sentence taken from a list.
+
+
+
+
+
+Last Names: http://www2.census.gov/topics/genealogy/1990surnames/dist.all.last
+First Names (Female): http://www2.census.gov/topics/genealogy/1990surnames/dist.female.first
+First Names (Male): http://www2.census.gov/topics/genealogy/1990surnames/dist.male.first
+
+Random Sentences: http://www.wordgenerator.net/random-sentence-generator.php
