@@ -11,6 +11,5 @@ urlpatterns = patterns('',
      {'template_name': 'beers/django-login.html'}),
     url(r'^beers/', include('beers.urls')),
     url(r'^beers_alt/', include('beers_alt.urls')),
-    url(r'^crowdcon/', include('crowdcon.urls')),
 
 )
