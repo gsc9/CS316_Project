@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
-from beers_alt.models import Beer, Bar, Drinker, Frequents, Likes
+from beers_alt.models import Drinker
 
 def all_drinkers(request):
     return render_to_response('beers_alt/all-drinkers.html',
@@ -13,11 +13,11 @@ def all_drinkers(request):
 def drinker(request, drinker_name):
     drinker = get_object_or_404(Drinker, pk=drinker_name)
     return render_to_response('beers_alt/drinker.html',
-        { 'drinker' : drinker, 
+        { 'drinker' : drinker,
           # 'beers' : Beer.objects.raw('SELECT * FROM Beer WHERE name IN (SELECT beer FROM Likes WHERE drinker = %s) ORDER BY name', [drinker.name]),
-          'beers' : Beer.objects.filter(likes__drinker__exact=drinker).order_by('name'),
-          # 'frequents' : Frequents.objects.raw('SELECT * FROM Frequents WHERE drinker = %s ORDER BY bar', [drinker.name]),
-          'frequents' : drinker.frequents_set.all().order_by('bar'),
+        #   'beers' : Beer.objects.filter(likes__drinker__exact=drinker).order_by('name'),
+        #   # 'frequents' : Frequents.objects.raw('SELECT * FROM Frequents WHERE drinker = %s ORDER BY bar', [drinker.name]),
+        #   'frequents' : drinker.frequents_set.all().order_by('bar'),
         },
         context_instance=RequestContext(request))
 
