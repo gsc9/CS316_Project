@@ -10,6 +10,31 @@ from beers_alt.models import Ingredient
 from beers_alt.models import Part_Of
 from beers_alt.models import Event_Ingredient
 from beers_alt.models import Who_Buys
+from django.forms.models import ModelForm, inlineformset_factory
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+
+def login(request):
+    return render_to_response('beers_alt/login.html',
+        {},
+        context_instance=RequestContext(request))
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse(('beers_alt.views.all_drinkers')))
+    else:
+        form = UserCreationForm()
+    return render_to_response('beers_alt/register.html',
+        { 'form': form, },
+        context_instance=RequestContext(request))
+
+def logout(request):
+    auth_logout(request)
+    return HttpResponseRedirect(reverse('beers_alt.views.all_drinkers'))
 
 def all_drinkers(request):
     return render_to_response('beers_alt/all-drinkers.html',

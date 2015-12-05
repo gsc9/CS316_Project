@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'', include('social_auth.urls')),
     (r'^accounts/login/$', 'django.contrib.auth.views.login',
-     {'template_name': 'beers/django-login.html'}),
+     {'template_name': 'beers_alt/django-login.html'}),
     url(r'^beers/', include('beers.urls')),
     url(r'^beers_alt/', include('beers_alt.urls')),
 

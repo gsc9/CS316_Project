@@ -24,7 +24,7 @@ class Event(models.Model):
 	date = models.DateField()
 	time = models.TimeField()
 	location = models.CharField(max_length=256)
-	description = models.CharField(max_length=400)
+	description = models.CharField(max_length=400, null=True, blank=True)
 	class Meta:
 		db_table = u'event'
 	def __unicode__(self):
