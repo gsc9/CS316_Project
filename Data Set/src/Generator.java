@@ -21,7 +21,7 @@ public class Generator {
 	
 	public static void main(String[] args) {
 		int seed = 0;
-		String[] tables = {"Registered_User", "Event", "Ingredient", "Part_Of", "Event_Ingredient", "Who_Buys"};
+		String[] tables = {"Auth_User", "Registered_User", "Event", "Ingredient", "Part_Of", "Event_Ingredient", "Who_Buys"};
 		new Generator(seed, tables);
 	}
 	
@@ -29,21 +29,25 @@ public class Generator {
 		String[] randomSentences = randomSentences();
 		
 		AbstractGen[] tables = new AbstractGen[tableNames.length];
-		tables[0] = new GenRegisteredUser(randomGenerator, tableNames[0]);
-		tables[1] = new GenEvent(randomGenerator, tableNames[1], randomSentences);
-		tables[2] = new GenIngredient(tableNames[2]);
+		tables[0] = new GenAuthUser(randomGenerator, tableNames[0]);
 		
-		String[] emails = tables[0].extractData();
-		String[] eids = tables[1].extractData();
-		String[] ingredients = tables[2].extractData();
+		String[] usernames = tables[0].extractData();
+		String[] emails = tables[0].extractMoreData();
 		
-		tables[3] = new GenPartOf(randomGenerator, tableNames[3], emails, eids);
-		tables[4] = new GenEventIngredient(randomGenerator, tableNames[4], randomSentences, eids, ingredients);
+		tables[1] = new GenRegisteredUser(randomGenerator, tableNames[1], usernames, emails);
+		tables[2] = new GenEvent(randomGenerator, tableNames[2], randomSentences);
+		tables[3] = new GenIngredient(tableNames[3]);
 		
-		String[] pairings = tables[3].extractData();
-		HashMap<Integer, ArrayList<String>> eventIngred = tables[4].extractComplexData();
+		String[] eids = tables[2].extractData();
+		String[] ingredients = tables[3].extractData();
 		
-		tables[5] = new GenWhoBuys(randomGenerator, tableNames[5], randomSentences, pairings, eventIngred);
+		tables[4] = new GenPartOf(randomGenerator, tableNames[4], emails, eids);
+		tables[5] = new GenEventIngredient(randomGenerator, tableNames[5], randomSentences, eids, ingredients);
+		
+		String[] pairings = tables[4].extractData();
+		HashMap<Integer, ArrayList<String>> eventIngred = tables[5].extractComplexData();
+		
+		tables[6] = new GenWhoBuys(randomGenerator, tableNames[6], randomSentences, pairings, eventIngred);
 		
 		String path = System.getProperty("user.dir");
 		FileWriter writer = new FileWriter(path + File.separator + "GEN-PRODUCTION.SQL");
