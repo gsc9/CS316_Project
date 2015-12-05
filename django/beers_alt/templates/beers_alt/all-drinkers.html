@@ -1,0 +1,27 @@
+{% extends "beers_alt/base.html" %}
+
+{% block heading %}All Drinkers{% endblock %}
+
+{% block content %}
+<p>Click on drinker below to view more information:
+<ul>
+{% for drinker in drinkers %}
+    <li><a href="{% url 'beers_alt.views.drinker' drinker_name=drinker.name %}">{{drinker.name}}</a></li>
+{% endfor %}
+</ul>
+{{drinkers.count}} drinker{{drinkers|pluralize}} found in the database.
+</p>
+<p>Registered Users:
+<!-- <ul>
+{% for registered_user in registered_users %}
+  Username: {{registered_user.username}}<br/>
+{% endfor %}
+</ul> -->
+{{registered_users.count}} registered user{{users|pluralize}} found in the database.<br/>
+{{events.count}} event{{events|pluralize}} found in the database.<br/>
+{{ingredients.count}} ingredient{{ingredients|pluralize}} found in the database.<br/>
+{{part_ofs.count}} part_of relationship{{relationships|pluralize}} found in the database.<br/>
+{{event_ingredients.count}} event ingredient{{ingredients|pluralize}} found in the database.<br/>
+{{who_buyss.count}} who_buys relationship{{relationships|pluralize}} found in the database.<br/>
+</p>
+{% endblock %}

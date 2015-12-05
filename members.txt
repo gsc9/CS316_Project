@@ -14,32 +14,24 @@ Time Spent: 1.5 hours
 Details: Modified E/R Diagram to take into account professor's feedback, planned for accounting for supply and demand of 
 ingredients, modified mockups, distributed final bits of work required to complete project milestone, came up with project 
 
-Annie Yang - Made mockups and uploaded pictures to Google doc
-Martin Tamayo - Database assumptions, formatted for Google doc, and SQL queries
-Grant Kelly - Wrote description of project on write-up and sample data
-Grace Chen - Designed E/R diagrams, made group logo, and wrote schemas (although schemas were finalized by the whole group)
+Date: 31 Oct 2015
+Time Spent: 3 Hours
+Details: Spent a significant amount of time getting DJANGO setup with a clone of the beers database in order to build a foundation for our project. All members attended.
+
+Date: 04 November 2015
+Time Spent: Hour 1.5
+Details: Finished up report for milestone 2, including updated E/R Schema, progress report, sample data creation, and setting up django.
+
+Annie Yang - Made mockups and uploaded pictures to Google doc. Worked to set up django and push changes to git directory.
+Martin Tamayo - Database assumptions, formatted for Google doc, and SQL queries. Developed sample data creation program, created sql tables and queries, tested table assumptions.
+Grant Kelly - Wrote description of project on write-up and sample data. Worked on setting up Django.
+Grace Chen - Designed E/R diagrams, made group logo, and wrote schemas (although schemas were finalized by the whole group). Updated E/R diagrams, built beers_alt table and further investigated django. Made a HowTo.txt file for installing a new django app for beers_alt.
 
 
-Possible group names:
-  The Contribulator
-  myBBQ, etc.
-  Plan My Potluck (PmP)
-  PotluckMe
-  *CrowdsourcedContributions (CrowdCon)
-  Help Me Make my Dinner (H3MD)
-  GroupMeat (and Vegetables)
-  Potluckulator
-  Potluckalypse
-  EatTime
-  PotluckNation
-
-  * CrowdCon - Okay, this might be a hard sell, but imagine a picture of a kraken (i.e. a giant mythological squid that 
-  terrorizes Johnny Depp (in the picture he is not actually terrifying Johnny Depp but you get the idea)) with a different 
-  application for the use of our planning tool symbolized in objects in each of his tenticle hands. This would show how we 
-  can use the tool not just for potlucks, but anything your imagination might desire and user agreement (within the 
-  constraints of our database). Examples include potluck, pit orchestras, and costumes for a play.
-  
-It seems like we are going with CrowdsourceContribution (CrowdCon), but this is open to change!  
+Project/App/Website Name
+  CrowdCon
+	We have a logo with a kraken! 
+	We might name the feature that suggests ingredients the contribulator 
   
   
   
