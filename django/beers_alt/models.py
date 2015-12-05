@@ -57,14 +57,14 @@ class Part_Of(models.Model):
  #comments VARCHAR(256),
  #PRIMARY KEY(name, eid));
 class Event_Ingredient(models.Model):
-	name = models.ForeignKey(Ingredient, db_column='name')
+	ingredient_name = models.ForeignKey(Ingredient, db_column='ingredient_name')
 	eid = models.ForeignKey(Event, db_column='eid')
 	quantity = models.IntegerField()
 	units = models.CharField(max_length=256)
 	comments = models.CharField(max_length=256)
 	class Meta:
 		db_table = u'event_ingredient'
-        unique_together = (('name', 'eid'),)
+        unique_together = (('ingredient_name', 'eid'),)
 
 
 
@@ -78,13 +78,13 @@ class Event_Ingredient(models.Model):
 
 class Who_Buys(models.Model):
 	email = models.ForeignKey(Registered_User, db_column='email')
-	name = models.ForeignKey(Ingredient, db_column='name')
+	ingredient_name = models.ForeignKey(Ingredient, db_column='ingredient_name')
 	eid = models.ForeignKey(Event, db_column='eid')
 	bringing = models.IntegerField()
 	user_comments = models.CharField(max_length=400)
 	class Meta:
 		db_table = u'who_buys'
-        unique_together = (('email', 'name', 'eid'),)
+        unique_together = (('email', 'ingredient_name', 'eid'),)
 
 # class Frequents(models.Model):
 #     drinker = models.ForeignKey(Drinker, db_column='drinker')
