@@ -1,0 +1,18 @@
+{% extends "beers_alt/base.html" %}
+
+
+
+{% block content %}
+
+<p>
+<table>
+{% for ingred in ingredient %}
+    <tr><td>{{ingred.ingredient_name}}{% if not forloop.last %},{% endif %}<td></tr>
+{% endfor %}
+
+<br/>
+
+</table>
+</p>
+
+{% endblock %}
