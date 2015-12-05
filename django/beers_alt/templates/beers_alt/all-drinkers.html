@@ -11,4 +11,12 @@
 </ul>
 {{drinkers.count}} drinker{{drinkers|pluralize}} found in the database.
 </p>
+<p>Registered Users:
+<ul>
+{% for registered_user in registered_users %}
+    <li><a href="{% url 'beers_alt.views.registered_user' registered_username=registered_user.username %}">{{registered_user.username}}</a></li>
+{% endfor %}
+</ul>
+{{registered_users.count}} registered user{{users|pluralize}} found in the database.
+</p>
 {% endblock %}

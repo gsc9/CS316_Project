@@ -4,10 +4,13 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from beers_alt.models import Drinker
+from beers_alt.models import Registered_User
 
 def all_drinkers(request):
     return render_to_response('beers_alt/all-drinkers.html',
-        { 'drinkers': Drinker.objects.all().order_by('name') },
+        { 'drinkers': Drinker.objects.all().order_by('name'),
+          'registered_users': Registered_User.objects.all().order_by('username'),
+          },
         context_instance=RequestContext(request))
 
 def drinker(request, drinker_name):
@@ -21,19 +24,30 @@ def drinker(request, drinker_name):
         },
         context_instance=RequestContext(request))
 
+def registered_user(request, registered_username):
+    registered_user = get_object_or_404(Registered_User, pk=registered_username)
+    return render_to_response('beers_alt/user.html',
+        { 'registered_user' : registered_user,
+          # 'beers' : Beer.objects.raw('SELECT * FROM Beer WHERE name IN (SELECT beer FROM Likes WHERE drinker = %s) ORDER BY name', [drinker.name]),
+        #   'beers' : Beer.objects.filter(likes__drinker__exact=drinker).order_by('name'),
+        #   # 'frequents' : Frequents.objects.raw('SELECT * FROM Frequents WHERE drinker = %s ORDER BY bar', [drinker.name]),
+        #   'frequents' : drinker.frequents_set.all().order_by('bar'),
+        },
+        context_instance=RequestContext(request))
+
 def edit_drinker(request, drinker_name):
     drinker = get_object_or_404(Drinker, pk=drinker_name)
-    beers = Beer.objects.all().order_by('name')
-    beersLiked = [(beer, Likes.objects.filter(drinker__exact=drinker, beer__exact=beer).exists())
-                  for beer in beers]
-    bars = Bar.objects.all().order_by('name')
-    frequents = Frequents.objects.filter(drinker__exact=drinker).all()
-    barsFrequented = [(bar, frequents.get(bar__exact=bar).times_a_week if frequents.filter(bar__exact=bar).exists() else 0)
-                      for bar in bars]
+    # beers = Beer.objects.all().order_by('name')
+    # beersLiked = [(beer, Likes.objects.filter(drinker__exact=drinker, beer__exact=beer).exists())
+    #               for beer in beers]
+    # bars = Bar.objects.all().order_by('name')
+    # frequents = Frequents.objects.filter(drinker__exact=drinker).all()
+    # barsFrequented = [(bar, frequents.get(bar__exact=bar).times_a_week if frequents.filter(bar__exact=bar).exists() else 0)
+    #                   for bar in bars]
     return render_to_response('beers_alt/edit-drinker.html',
         { 'drinker' : drinker,
-          'beersLiked' : beersLiked,
-          'barsFrequented' : barsFrequented,
+        #   'beersLiked' : beersLiked,
+        #   'barsFrequented' : barsFrequented,
         },
         context_instance=RequestContext(request))
 
