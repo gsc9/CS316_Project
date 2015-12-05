@@ -12,11 +12,16 @@
 {{drinkers.count}} drinker{{drinkers|pluralize}} found in the database.
 </p>
 <p>Registered Users:
-<ul>
+<!-- <ul>
 {% for registered_user in registered_users %}
-    <li><a href="{% url 'beers_alt.views.registered_user' registered_username=registered_user.username %}">{{registered_user.username}}</a></li>
+  Username: {{registered_user.username}}<br/>
 {% endfor %}
-</ul>
-{{registered_users.count}} registered user{{users|pluralize}} found in the database.
+</ul> -->
+{{registered_users.count}} registered user{{users|pluralize}} found in the database.<br/>
+{{events.count}} event{{events|pluralize}} found in the database.<br/>
+{{ingredients.count}} ingredient{{ingredients|pluralize}} found in the database.<br/>
+{{part_ofs.count}} part_of relationship{{relationships|pluralize}} found in the database.<br/>
+{{event_ingredients.count}} event ingredient{{ingredients|pluralize}} found in the database.<br/>
+{{who_buyss.count}} who_buys relationship{{relationships|pluralize}} found in the database.<br/>
 </p>
 {% endblock %}

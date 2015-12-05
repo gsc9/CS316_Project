@@ -5,11 +5,21 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from beers_alt.models import Drinker
 from beers_alt.models import Registered_User
+from beers_alt.models import Event
+from beers_alt.models import Ingredient
+from beers_alt.models import Part_Of
+from beers_alt.models import Event_Ingredient
+from beers_alt.models import Who_Buys
 
 def all_drinkers(request):
     return render_to_response('beers_alt/all-drinkers.html',
         { 'drinkers': Drinker.objects.all().order_by('name'),
           'registered_users': Registered_User.objects.all().order_by('username'),
+          'events': Event.objects.all().order_by('title'),
+          'ingredients': Ingredient.objects.all().order_by('ingredient_name'),
+          'part_ofs': Part_Of.objects.all().order_by('email'),
+          'event_ingredients': Event_Ingredient.objects.all().order_by('name'),
+          'who_buyss': Who_Buys.objects.all().order_by('email'),
           },
         context_instance=RequestContext(request))
 
