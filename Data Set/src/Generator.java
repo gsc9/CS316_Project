@@ -33,7 +33,7 @@ public class Generator {
 		
 		String[] usernames = tables[0].extractData();
 		
-		tables[1] = new GenRegisteredUser(randomGenerator, tableNames[1], usernames, usernames);
+		tables[1] = new GenRegisteredUser(randomGenerator, tableNames[1], usernames);
 		tables[2] = new GenEvent(randomGenerator, tableNames[2], randomSentences);
 		tables[3] = new GenIngredient(tableNames[3]);
 		
@@ -49,12 +49,16 @@ public class Generator {
 		tables[6] = new GenWhoBuys(randomGenerator, tableNames[6], randomSentences, pairings, eventIngred);
 		
 		String path = System.getProperty("user.dir");
-		FileWriter writer = new FileWriter(path + File.separator + "GEN-PRODUCTION.SQL");
+		FileWriter writer = new FileWriter(path + File.separator + "TABLE-CREATION.SQL");
 		for (int i = 1; i < tables.length; i++) {
-			writer.write(tables[i].myHardcoded);
+			writer.write(tables[i].myHardcoded + "\n");
 		}
+		writer.flush();
+		writer.close();
+		
+		writer = new FileWriter(path + File.separator + "GEN-PRODUCTION.SQL");
 		for (int i = 1; i < tables.length; i++) {
-			writer.write("\n" + tables[i].myData);
+			writer.write(tables[i].myData + "\n");
 		}
 		writer.flush();
 		writer.close();

@@ -8,7 +8,7 @@ public class GenEventIngredient extends AbstractGen {
 	private HashMap<Integer, ArrayList<String>> myComplexData;
 	
 	public GenEventIngredient(Random randomGenerator, String table, String[] hostComments, String[] eids, String[] ingredients) throws IOException {
-		myHardcoded = "CREATE TABLE " + table + " (id INTEGER NOT NULL UNIQUE PRIMARY KEY, ingredient_name VARCHAR(256) NOT NULL REFERENCES Ingredient(ingredient_name), eid INTEGER NOT NULL REFERENCES Event(eid),  quantity INTEGER NOT NULL, units VARCHAR(256), comments VARCHAR(256), UNIQUE(ingredient_name, eid));\n";
+		myHardcoded = "CREATE TABLE " + table + " (uid INTEGER NOT NULL UNIQUE PRIMARY KEY, ingredient_name VARCHAR(256) NOT NULL REFERENCES Ingredient(ingredient_name), eid INTEGER NOT NULL REFERENCES Event(eid),  quantity INTEGER NOT NULL, units VARCHAR(256), comments VARCHAR(256), UNIQUE(ingredient_name, eid));\n";
 		myComplexData = new HashMap<Integer, ArrayList<String>>();
 		int[] quantities = {1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 18, 20, 24};
 		String[] units = {"NULL", "NULL", "NULL", "NULL", "NULL", "'lbs'", "'kg'", "'bags'", "'cans'", "'packets'"};
