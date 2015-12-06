@@ -12,24 +12,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='event_ingredient',
-            name='id',
-            field=models.AutoField(auto_created=True, primary_key=True, default='1', serialize=False, verbose_name='ID'),
-            preserve_default=False,
-        ),
-        migrations.AddField(
-            model_name='part_of',
-            name='id',
-            field=models.AutoField(auto_created=True, primary_key=True, default='1', serialize=False, verbose_name='ID'),
-            preserve_default=False,
-        ),
-        migrations.AddField(
-            model_name='who_buys',
-            name='id',
-            field=models.AutoField(auto_created=True, primary_key=True, default='1', serialize=False, verbose_name='ID'),
-            preserve_default=False,
-        ),
         migrations.AlterField(
             model_name='event',
             name='description',

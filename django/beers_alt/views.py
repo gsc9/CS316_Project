@@ -14,6 +14,7 @@ from django.forms.models import ModelForm, inlineformset_factory
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 def home_page(request, current_user):
     home_page = get_object_or_404(Registered_User, pk=current_user)
@@ -46,7 +47,7 @@ def logout(request):
 def all_drinkers(request):
     return render_to_response('beers_alt/all-drinkers.html',
         { 'drinkers': Drinker.objects.all().order_by('name'),
-          'registered_users': Registered_User.objects.all().order_by('username'),
+          'registered_users': User.objects.all().order_by('username'),
           'events': Event.objects.all().order_by('title'),
           'ingredients': Ingredient.objects.all().order_by('ingredient_name'),
           'part_ofs': Part_Of.objects.all().order_by('email'),
