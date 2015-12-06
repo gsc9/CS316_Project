@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 ('date', models.DateField()),
                 ('time', models.TimeField()),
                 ('location', models.CharField(max_length=256)),
-                ('description', models.CharField(max_length=400)),
+                ('description', models.CharField(max_length=400, null=True, blank=True)),
             ],
             options={
                 'db_table': 'event',
@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
             name='Event_Ingredient',
             fields=[
                 ('ingredient_name', models.ForeignKey(to='beers_alt.Ingredient', db_column=b'ingredient_name', primary_key=True)),
-                ('eid', models.ForeignKey(to='beers_alt.Event', db_column=b'eid', primary_key=True)),
+                ('eid', models.ForeignKey(to='beers_alt.Event', db_column=b'eid')),
                 ('quantity', models.IntegerField()),
                 ('units', models.CharField(max_length=256)),
                 ('comments', models.CharField(max_length=256)),
@@ -58,8 +58,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Part_Of',
             fields=[
-                ('email', models.ForeignKey(to=settings.AUTH_USER_MODEL, db_column=b'email', primary_key=True)),
-                ('eid', models.ForeignKey(to='beers_alt.Event', db_column=b'eid', primary_key=True)),
+                ('uid', models.ForeignKey(to=settings.AUTH_USER_MODEL, db_column=b'uid', primary_key=True)),
+                ('eid', models.ForeignKey(to='beers_alt.Event', db_column=b'eid')),
                 ('is_admin', models.BooleanField(default=False)),
             ],
             options={
@@ -79,7 +79,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Who_Buys',
             fields=[
-                ('email', models.ForeignKey(to=settings.AUTH_USER_MODEL, db_column=b'email', primary_key=True)),
+                ('uid', models.ForeignKey(to=settings.AUTH_USER_MODEL, db_column=b'uid', primary_key=True)),
                 ('ingredient_name', models.ForeignKey(to='beers_alt.Ingredient', db_column=b'ingredient_name', primary_key=True)),
                 ('eid', models.ForeignKey(to='beers_alt.Event', db_column=b'eid', primary_key=True)),
                 ('bringing', models.IntegerField()),

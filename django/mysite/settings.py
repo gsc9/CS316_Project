@@ -31,6 +31,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SILENCED_SYSTEM_CHECKS = ['models.E007']
 
 # Application definition
 
