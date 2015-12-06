@@ -7,14 +7,14 @@ import java.util.Random;
 public class GenWhoBuys extends AbstractGen {
 	
 	public GenWhoBuys(Random randomGenerator, String table, String[] userComments, String[] pairings, HashMap<Integer, ArrayList<String>> eventIngred) throws IOException {
-		String hardcoded = "CREATE TABLE " + table + " (username VARCHAR(256) NOT NULL REFERENCES Auth_User(username), ingredient_name VARCHAR(256) NOT NULL REFERENCES Ingredient(ingredient_name), eid INTEGER NOT NULL REFERENCES Event(eid), bringing INTEGER NOT NULL, user_comments VARCHAR(400), PRIMARY KEY(email, ingredient_name, eid));";
+		myHardcoded = "CREATE TABLE " + table + " (id INTEGER NOT NULL UNIQUE PRIMARY KEY, username VARCHAR(256) NOT NULL REFERENCES Auth_User(username), ingredient_name VARCHAR(256) NOT NULL REFERENCES Ingredient(ingredient_name), eid INTEGER NOT NULL REFERENCES Event(eid), bringing INTEGER NOT NULL, user_comments VARCHAR(400), UNIQUE(username, ingredient_name, eid));\n";
 		HashSet<String> triplets = new HashSet<String>();
 		
 		// CHANGE TABLE SIZE HERE!!!
 		int PRODUCTION_SIZE = 20000;
 		// CHANGE TABLE SIZE HERE!!!
 		
-		StringBuilder sBuilder = new StringBuilder(hardcoded + "\n");
+		StringBuilder sBuilder = new StringBuilder();
 		for (int i = 0; i < PRODUCTION_SIZE; i++) {
 			int pairingChoice = randomGenerator.nextInt(pairings.length);
 			String[] data = pairings[pairingChoice].split("', ");
@@ -32,7 +32,7 @@ public class GenWhoBuys extends AbstractGen {
 						comments = "'" + userComments[commentIndex] + "'";
 					}
 					int bringing = randomGenerator.nextInt(6) + 1;
-					sBuilder.append("INSERT INTO " + table + " VALUES('" + triplet + ", " + bringing + ", " + comments + ");\n");
+					sBuilder.append("INSERT INTO " + table + " VALUES(" + (i+1) + ", '" + triplet + ", " + bringing + ", " + comments + ");\n");
 				}
 			}
 		}

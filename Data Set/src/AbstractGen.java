@@ -4,6 +4,7 @@ import java.util.HashMap;
 public abstract class AbstractGen {
 	
 	protected String myData;
+	protected String myHardcoded;
 	
 	protected abstract String[] extractData();
 	

@@ -4,9 +4,9 @@ import java.util.Random;
 public class GenRegisteredUser extends AbstractGen {
 	
 	public GenRegisteredUser(Random randomGenerator, String table, String[] usernames, String[] emails) throws IOException {
-		String hardcoded = "CREATE TABLE " + table + " (email VARCHAR(256) NOT NULL PRIMARY KEY, username VARCHAR(256) NOT NULL);";
+		myHardcoded = "CREATE TABLE " + table + " (email VARCHAR(256) NOT NULL PRIMARY KEY, username VARCHAR(256) NOT NULL);\n";
 		
-		StringBuilder sBuilder = new StringBuilder(hardcoded + "\n");
+		StringBuilder sBuilder = new StringBuilder();
 		for (int i = 0; i < usernames.length; i++) {
 			sBuilder.append("INSERT INTO " + table + " VALUES('" + emails[i] + "', '" + usernames[i] + "');\n");
 		}
