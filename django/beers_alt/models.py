@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # class Bar(models.Model):
 #     name = models.CharField(max_length=20, primary_key=True)
@@ -41,13 +42,14 @@ class Ingredient(models.Model):
 
 
 #CREATE TABLE Part_Of (email VARCHAR(256) NOT NULL REFERENCES Registered_User(email), eid INTEGER NOT NULL REFERENCES Event(eid), is_admin BOOLEAN NOT NULL, PRIMARY KEY(email, eid));
+#FOREIGN KEY ON REGISTERED USER
 class Part_Of(models.Model):
-	email = models.ForeignKey(Registered_User, db_column='email')
-	eid = models.ForeignKey(Event, db_column='eid')
-	is_admin = models.BooleanField(default=False)
-	class Meta:
+    email = models.ForeignKey(User, db_column='email')
+    eid = models.ForeignKey(Event, db_column='eid')
+    is_admin = models.BooleanField(default=False)
+    class Meta:
 		db_table = u'part_of'
-        unique_together = (('email', 'eid'),)
+		unique_together = (('email', 'eid'),)
 
 #CREATE TABLE Event_Ingredient
 #(name VARCHAR(256) NOT NULL REFERENCES Ingredient(name),
@@ -76,8 +78,10 @@ class Event_Ingredient(models.Model):
  #user_comments VARCHAR(400),
  #PRIMARY KEY(email, name, eid));
 
+#FOREIGN KEY ON REGISTERED USER
 class Who_Buys(models.Model):
-	email = models.ForeignKey(Registered_User, db_column='email')
+    #user = models.ForeignKey(User, unique=True)
+	email = models.ForeignKey(User, db_column='email')
 	ingredient_name = models.ForeignKey(Ingredient, db_column='ingredient_name')
 	eid = models.ForeignKey(Event, db_column='eid')
 	bringing = models.IntegerField()

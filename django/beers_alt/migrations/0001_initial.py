@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
@@ -34,11 +36,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Event_Ingredient',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('ingredient_name', models.ForeignKey(to='beers_alt.Ingredient', db_column=b'ingredient_name', primary_key=True)),
+                ('eid', models.ForeignKey(to='beers_alt.Event', db_column=b'eid', primary_key=True)),
                 ('quantity', models.IntegerField()),
                 ('units', models.CharField(max_length=256)),
                 ('comments', models.CharField(max_length=256)),
-                ('eid', models.ForeignKey(to='beers_alt.Event', db_column=b'eid')),
             ],
             options={
                 'db_table': 'event_ingredient',
@@ -56,9 +58,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Part_Of',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('email', models.ForeignKey(to=settings.AUTH_USER_MODEL, db_column=b'email', primary_key=True)),
+                ('eid', models.ForeignKey(to='beers_alt.Event', db_column=b'eid', primary_key=True)),
                 ('is_admin', models.BooleanField(default=False)),
-                ('eid', models.ForeignKey(to='beers_alt.Event', db_column=b'eid')),
             ],
             options={
                 'db_table': 'part_of',
@@ -77,25 +79,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Who_Buys',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('email', models.ForeignKey(to=settings.AUTH_USER_MODEL, db_column=b'email', primary_key=True)),
+                ('ingredient_name', models.ForeignKey(to='beers_alt.Ingredient', db_column=b'ingredient_name', primary_key=True)),
+                ('eid', models.ForeignKey(to='beers_alt.Event', db_column=b'eid', primary_key=True)),
                 ('bringing', models.IntegerField()),
                 ('user_comments', models.CharField(max_length=400)),
-                ('eid', models.ForeignKey(to='beers_alt.Event', db_column=b'eid')),
-                ('email', models.ForeignKey(to='beers_alt.Registered_User', db_column=b'email')),
-                ('name', models.ForeignKey(to='beers_alt.Ingredient', db_column=b'name')),
             ],
             options={
                 'db_table': 'who_buys',
             },
-        ),
-        migrations.AddField(
-            model_name='part_of',
-            name='email',
-            field=models.ForeignKey(to='beers_alt.Registered_User', db_column=b'email'),
-        ),
-        migrations.AddField(
-            model_name='event_ingredient',
-            name='name',
-            field=models.ForeignKey(to='beers_alt.Ingredient', db_column=b'name'),
         ),
     ]
