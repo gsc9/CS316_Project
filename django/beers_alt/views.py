@@ -15,6 +15,13 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 
+def home_page(request, current_user):
+    home_page = get_object_or_404(Registered_User, pk=current_user)
+    return render_to_response('beers_alt/home-page.html',
+    { 'userinfo' : home_page,
+        },
+        context_instance=RequestContext(request))
+
 def login(request):
     return render_to_response('beers_alt/login.html',
         {},
