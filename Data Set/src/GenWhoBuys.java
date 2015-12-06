@@ -7,7 +7,7 @@ import java.util.Random;
 public class GenWhoBuys extends AbstractGen {
 	
 	public GenWhoBuys(Random randomGenerator, String table, String[] userComments, String[] pairings, HashMap<Integer, ArrayList<String>> eventIngred) throws IOException {
-		String hardcoded = "CREATE TABLE " + table + " (email VARCHAR(256) NOT NULL REFERENCES Registered_User(email), ingredient_name VARCHAR(256) NOT NULL REFERENCES Ingredient(ingredient_name), eid INTEGER NOT NULL REFERENCES Event(eid), bringing INTEGER NOT NULL, user_comments VARCHAR(400), PRIMARY KEY(email, ingredient_name, eid));";
+		String hardcoded = "CREATE TABLE " + table + " (username VARCHAR(256) NOT NULL REFERENCES Auth_User(username), ingredient_name VARCHAR(256) NOT NULL REFERENCES Ingredient(ingredient_name), eid INTEGER NOT NULL REFERENCES Event(eid), bringing INTEGER NOT NULL, user_comments VARCHAR(400), PRIMARY KEY(email, ingredient_name, eid));";
 		HashSet<String> triplets = new HashSet<String>();
 		
 		// CHANGE TABLE SIZE HERE!!!
