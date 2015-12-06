@@ -7,6 +7,10 @@ public abstract class AbstractGen {
 	
 	protected abstract String[] extractData();
 	
+	protected String[] extractMoreData() {
+		return null;
+	}
+	
 	protected HashMap<Integer, ArrayList<String>> extractComplexData() {
 		return null;
 	}
