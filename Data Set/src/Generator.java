@@ -29,7 +29,7 @@ public class Generator {
 		String[] randomSentences = randomSentences();
 		
 		AbstractGen[] tables = new AbstractGen[tableNames.length];
-		tables[0] = new GenAuthUser(randomGenerator, tableNames[0]);
+		tables[0] = new GenAuthUser(randomGenerator);
 		
 		String[] usernames = tables[0].extractData();
 		String[] emails = tables[0].extractMoreData();
@@ -51,9 +51,14 @@ public class Generator {
 		
 		String path = System.getProperty("user.dir");
 		FileWriter writer = new FileWriter(path + File.separator + "GEN-PRODUCTION.SQL");
-		for (int i = 0; i < tables.length; i++) {
+		for (int i = 1; i < tables.length; i++) {
 			writer.write(tables[i].myData + "\n");
 		}
+		writer.flush();
+		writer.close();
+		
+		writer = new FileWriter(path + File.separator + "admin.py");
+		writer.write(tables[0].myData);
 		writer.flush();
 		writer.close();
 	}

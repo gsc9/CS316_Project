@@ -9,7 +9,7 @@ public class GenAuthUser extends AbstractGen {
 	private String[] myUsernames;
 	private String[] myEmails;
 	
-	public GenAuthUser(Random randomGenerator, String table) throws IOException {
+	public GenAuthUser(Random randomGenerator) throws IOException {
 		String[] firstNames = firstNames();
 		String[] lastNames = lastNames();
 		String[] passwords = passwords();
@@ -21,20 +21,20 @@ public class GenAuthUser extends AbstractGen {
 		
 		StringBuilder uBuilder = new StringBuilder();
 		StringBuilder eBuilder = new StringBuilder();
-		StringBuilder sBuilder = new StringBuilder();
+		StringBuilder sBuilder = new StringBuilder("from django.contrib import admin\nfrom django.contrib.auth.models import User\n");
 		for (int i = 0; i < PRODUCTION_SIZE; i++) {
 			int firstIndex = randomGenerator.nextInt(firstNames.length - 1);
 			int lastIndex = randomGenerator.nextInt(lastNames.length - 1);
 			int passIndex = randomGenerator.nextInt(passwords.length - 1);
 			String firstName = firstNames[firstIndex];
 			String lastName = lastNames[lastIndex];
-			String newName = firstName + " " + lastName;
+			String username = firstName + " " + lastName;
 			String password = passwords[passIndex];
-			if (!names.contains(newName)) {
-				names.add(newName);
+			if (!names.contains(username)) {
+				names.add(username);
 				String email = firstName + "." + lastName + "@example.com";
-				sBuilder.append("INSERT INTO " + table + " VALUES(DEFAULT, '" + password + "', null, false, '" + newName + "', '" + firstName + "', '" + lastName + "', '" + email + "', false, true, '1994-01-22');\n");
-				uBuilder.append(newName + "\n");
+				sBuilder.append("user = User.objects.create_user(username='" + username + "', email='" + email + "', password='" + password + "')\n");
+				uBuilder.append(username + "\n");
 				eBuilder.append(email + "\n");
 			}
 		}
