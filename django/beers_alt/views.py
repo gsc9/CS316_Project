@@ -50,9 +50,9 @@ def all_drinkers(request):
           'registered_users': User.objects.all().order_by('username'),
           'events': Event.objects.all().order_by('title'),
           'ingredients': Ingredient.objects.all().order_by('ingredient_name'),
-          'part_ofs': Part_Of.objects.all().order_by('email'),
+          'part_ofs': Part_Of.objects.all().order_by('uid'),
           'event_ingredients': Event_Ingredient.objects.all().order_by('name'),
-          'who_buyss': Who_Buys.objects.all().order_by('email'),
+          'who_buyss': Who_Buys.objects.all().order_by('uid'),
           },
         context_instance=RequestContext(request))
 

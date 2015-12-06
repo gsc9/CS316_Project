@@ -11,7 +11,7 @@ class Drinker(models.Model):
 
 #CREATE TABLE Registered_User (email VARCHAR(256) NOT NULL PRIMARY KEY, username VARCHAR(256) NOT NULL);
 class Registered_User(models.Model):
-    email = models.CharField(max_length=256, primary_key=True)
+    id = models.IntegerField(primary_key=True)
     username = models.CharField(max_length=256)
     class Meta:
         db_table = u'registered_user'
@@ -44,7 +44,7 @@ class Ingredient(models.Model):
 #CREATE TABLE Part_Of (email VARCHAR(256) NOT NULL REFERENCES Registered_User(email), eid INTEGER NOT NULL REFERENCES Event(eid), is_admin BOOLEAN NOT NULL, PRIMARY KEY(email, eid));
 #FOREIGN KEY ON REGISTERED USER
 class Part_Of(models.Model):
-    uid = models.ForeignKey(User, db_column='uid', primary_key=True)
+    uid = models.ForeignKey(Registered_User, db_column='uid', primary_key=True)
     eid = models.ForeignKey(Event, db_column='eid')
     is_admin = models.BooleanField(default=False)
     class Meta:
@@ -81,7 +81,7 @@ class Event_Ingredient(models.Model):
 #FOREIGN KEY ON REGISTERED USER
 class Who_Buys(models.Model):
     #user = models.ForeignKey(User, unique=True)
-	uid = models.ForeignKey(User, db_column='uid', primary_key=True)
+	uid = models.ForeignKey(Registered_User, db_column='uid', primary_key=True)
 	ingredient_name = models.ForeignKey(Ingredient, db_column='ingredient_name')
 	eid = models.ForeignKey(Event, db_column='eid')
 	bringing = models.IntegerField()

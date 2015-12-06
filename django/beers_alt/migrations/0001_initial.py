@@ -69,7 +69,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Registered_User',
             fields=[
-                ('email', models.CharField(max_length=256, serialize=False, primary_key=True)),
+                ('id', models.CharField(max_length=256, serialize=False, primary_key=True)),
                 ('username', models.CharField(max_length=256)),
             ],
             options={

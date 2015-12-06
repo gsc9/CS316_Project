@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='part_of',
             name='uid',
-            field=models.ForeignKey(primary_key=True, db_column=b'uid', serialize=False, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(primary_key=True, db_column=b'uid', serialize=False, to='beers_alt.Registered_User'),
         ),
         migrations.AlterField(
             model_name='who_buys',
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='who_buys',
             name='uid',
-            field=models.ForeignKey(primary_key=True, db_column=b'uid', serialize=False, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(primary_key=True, db_column=b'uid', serialize=False, to='beers_alt.Registered_User'),
         ),
         migrations.AlterUniqueTogether(
             name='part_of',
