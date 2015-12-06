@@ -13,6 +13,11 @@ Description: {{event.description}}<br/>
 </p>
 
 <p> Items: <br/>
+  <ul>
+  {% for item in items %}
+    Item: {{item.ingredient_name}}<br/>
+  {% endfor %}
+  </ul>
   <!-- <table border="1" style="width:100%">
     <tr>
       <td>Jill</td>
