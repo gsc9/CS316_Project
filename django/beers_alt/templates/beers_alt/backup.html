@@ -1,12 +1,11 @@
+{% extends "beers_alt/realbase.html" %}
+
+{% block heading %}The new base!{% endblock %}
+{% block login %}{% endblock %}
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <style>
-      p.name {
-        font-variant: small-caps;
-      }
-    </style>
-  </head>
   <head>
     <title>CrowdCon</title>
     <meta name="description" content="A sample Django website for db-beers"/>
@@ -16,35 +15,31 @@
     {% block script %}{% endblock %}
   </head>
   <body>
-    <a href="/beers_alt/"><img src="{{STATIC_URL}}beers_alt/img/title.png" height="50" width="230" style="float:left"/>  </a>
-    
-    {% if user.is_authenticated %}
-      <p class="name" style="text-align:right"> <font color="ff6666"> 
-         {% for auth in social_auth.associated %}
-           {{auth.user}} ({{auth.provider}}){% if forloop.last %}.{% else %}, {% endif %}
-         {% empty %}
-           {{user}}
-         {% endfor %}
-         </font>
-      </p>
-    {% endif %}
-    {% block login %}
-      {% if not user.is_authenticated %}
-        <p><a href="{% url 'beers_alt.views.login' %}?next={{request.get_full_path}}" style="float:right">Login </a></p>
-      {% else %}
-        <p><a href="{% url 'beers_alt.views.logout' %}?next={{request.get_full_path}}" style="float:right">Logout</a></p>
-      {% endif %}
+    <a href="/beers_alt/"><img src="{{STATIC_URL}}beers_alt/img/title.png" height="70" width="300" style="float:left"/>  </a>
     <pre>
 
 
-    </pre>
-    <hr/>
-    {% endblock %}
 
+    </pre>
     <h2 id="heading">
     {% block heading %}{% endblock %}</h2>
-    
+    {% if user.is_authenticated %}
+      <p>Welcome!<br/>
+         You are authenticated as
+         {% for auth in social_auth.associated %}
+           {{auth.user}} ({{auth.provider}}){% if forloop.last %}.{% else %}, {% endif %}
+         {% empty %}
+           {{user}} (local Django).
+         {% endfor %}
+         </p>
+    {% endif %}
+    {% block login %}
+      {% if not user.is_authenticated %}
+        <p><a href="{% url 'beers_alt.views.login' %}?next={{request.get_full_path}}">Login</a></p>
+      {% else %}
+        <p><a href="{% url 'beers_alt.views.logout' %}">Logout</a></p>
+      {% endif %}
+    {% endblock %}
     <div id="content">{% block content %}{% endblock %}</div>
-
   </body>
 </html>
