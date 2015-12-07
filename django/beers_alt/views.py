@@ -8,6 +8,8 @@ from beers_alt.models import Ingredient
 from beers_alt.models import Part_Of
 from beers_alt.models import Event_Ingredient
 from beers_alt.models import Who_Buys
+from django.contrib.auth.models import User
+
 
 from django.forms.models import ModelForm, inlineformset_factory
 from django.contrib.auth import logout as auth_logout
@@ -16,6 +18,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db import connection
 import time
 
+from django.contrib.auth.models import User
 
 def welcome(request):
     return render(request, "beers_alt/welcome.html")
@@ -24,16 +27,17 @@ def welcome(request):
 def home_page(request, current_user):
     cursor = connection.cursor()
     home_page = request.user.get_username() #get_object_or_404(Registered_User, pk=current_user)
-    cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid  FROM Registered_User, Part_Of, Event where part_of.uid = Registered_User.id AND part_of.eid = event.eid and Registered_User.username = %s and Event.date >= %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
-    row = cursor.fetchall()
-    cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid FROM Registered_User, Part_Of, Event where part_of.uid = Registered_User.id AND part_of.eid = event.eid and Registered_User.username = %s and Event.date < %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
-    row2 = cursor.fetchall()
+    cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid, EVENT.location, EVENT.description  FROM Auth_User, Part_Of, Event where part_of.uid = Auth_User.id AND part_of.eid = event.eid and Auth_User.username = %s and Event.date >= %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
+    rows = cursor.fetchall()
+   
+    cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid, EVENT.location, EVENT.description FROM Auth_User, Part_Of, Event where part_of.uid = Auth_User.id AND part_of.eid = event.eid and Auth_User.username = %s and Event.date < %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
+    rows2 = cursor.fetchall()
 
     return render_to_response('beers_alt/home-page.html',
     { 'userinfo' : home_page,
       #'Events' : Registered_User.objects.raw('SELECT Registered_User.id, Registered_User.username FROM Registered_User WHERE Registered_User.username = %s', ['vada berkich']),
-      'FutureEvents' : row,
-      'PastEvents' : row2,
+      'FutureEvents' : rows,
+      'PastEvents' : rows2,
 
         },
         context_instance=RequestContext(request))
@@ -62,7 +66,7 @@ def logout(request):
 def all_drinkers(request):
     return render_to_response('beers_alt/all-drinkers.html',
         { 'drinkers': Drinker.objects.all().order_by('name'),
-          'registered_users': Registered_User.objects.all().order_by('username'),
+          'registered_users': User.objects.all().order_by('username'),
           'events': Event.objects.all().order_by('title'),
           'ingredients': Ingredient.objects.all().order_by('ingredient_name'),
           'part_ofs': Part_Of.objects.all().order_by('email'),
@@ -84,25 +88,25 @@ def drinker(request, drinker_name):
 
 def event(request, eid):
     event = get_object_or_404(Event, eid=eid)
+    cursor = connection.cursor()
+    cursor.execute('SELECT EVENT.title, EVENT.eid, EVENT_INGREDIENT.eid, EVENT_INGREDIENT.ingredient_name, EVENT_INGREDIENT.quantity, EVENT_INGREDIENT.units, EVENT_INGREDIENT.comments, WHO_BUYS.Bringing, Auth_User.username FROM EVENT, EVENT_INGREDIENT, WHO_BUYS, AUTH_USER WHERE EVENT.eid = EVENT_INGREDIENT.eid and EVENT.EID = %s and WHO_BUYS.id= Auth_User.id and WHO_BUYS.eid = EVENT.eid', [eid])
+    rows = cursor.fetchall()
     return render_to_response('beers_alt/event.html',
-        { 'event' : event,
-          # 'beers' : Beer.objects.raw('SELECT * FROM Beer WHERE name IN (SELECT beer FROM Likes WHERE drinker = %s) ORDER BY name', [drinker.name]),
-        #   'beers' : Beer.objects.filter(likes__drinker__exact=drinker).order_by('name'),
-        #   # 'frequents' : Frequents.objects.raw('SELECT * FROM Frequents WHERE drinker = %s ORDER BY bar', [drinker.name]),
-        #   'frequents' : drinker.frequents_set.all().order_by('bar'),
+        { 'event' : event, 
+          'ingredient' : rows,
         },
         context_instance=RequestContext(request))
 
-def registered_user(request, registered_username):
-    registered_user = get_object_or_404(Registered_User, pk=registered_username)
-    return render_to_response('beers_alt/user.html',
-        { 'registered_user' : registered_user,
-          # 'beers' : Beer.objects.raw('SELECT * FROM Beer WHERE name IN (SELECT beer FROM Likes WHERE drinker = %s) ORDER BY name', [drinker.name]),
-        #   'beers' : Beer.objects.filter(likes__drinker__exact=drinker).order_by('name'),
-        #   # 'frequents' : Frequents.objects.raw('SELECT * FROM Frequents WHERE drinker = %s ORDER BY bar', [drinker.name]),
-        #   'frequents' : drinker.frequents_set.all().order_by('bar'),
-        },
-        context_instance=RequestContext(request))
+# def registered_user(request, registered_username):
+#     registered_user = get_object_or_404(Registered_User, pk=registered_username)
+#     return render_to_response('beers_alt/user.html',
+#         { 'registered_user' : registered_user,
+#           # 'beers' : Beer.objects.raw('SELECT * FROM Beer WHERE name IN (SELECT beer FROM Likes WHERE drinker = %s) ORDER BY name', [drinker.name]),
+#         #   'beers' : Beer.objects.filter(likes__drinker__exact=drinker).order_by('name'),
+#         #   # 'frequents' : Frequents.objects.raw('SELECT * FROM Frequents WHERE drinker = %s ORDER BY bar', [drinker.name]),
+#         #   'frequents' : drinker.frequents_set.all().order_by('bar'),
+#         },
+#         context_instance=RequestContext(request))
 
 def edit_drinker(request, drinker_name):
     drinker = get_object_or_404(Drinker, pk=drinker_name)

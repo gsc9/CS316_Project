@@ -5,29 +5,53 @@
 <div>
 	<div style="text-align: right;">
 		<ul style="list-style-type: none;">
-			<li><a href="http://www.google.com">Profile Settings</a></li>
+			<li><a href="">Profile Settings</a></li>
 		</ul>
 	</div>
 	<h3>Home Page</h3>
 	<div>
 		<ul style="list-style-type: none;">
-			<li><a href="http://www.google.com">Create Event</a></li>
+			<li><a href="">Create Event</a></li>
 			<li><b>My Future Events</b></li>
-			<li>
+			<table style="width:95%">
+				{% for title, date, time, eid, location, description in FutureEvents %}
+				<tr>
+					<td><p class="name"> <a href="/beers_alt/event/{{eid}}" style="color:#ff6666"> {{title}}</a></p></td>
+					<td><p>{{date}}</p></td>
+					<td><p>{{time}}</p></td>
+					<td><p>{{location}}</p></td>
+					<td><p>{{description}}</p></td>
+				</tr>
+				{% endfor %}
+			</table>
+			<pre>
+			</pre>
+			<!--li>
 				<ul>
-					{% for GRANT in FutureEvents %}
-						<li> {{GRANT}} </li>
+					{% for title, date, time, eid, location, description in FutureEvents %}
+						<li><p class="name"> <a href="/beers_alt/event/{{eid}}" style="color:#ff6666"> {{title}}</a> {{date}}, {{time}}, {{location}}, {{description}}</p></li>
 					{% endfor %}
 				</ul>
-			</li>
+			</li-->
 			<li><b>My Past Events</b></li>
-			<li>
+			<table style="width:95%">
+				{% for title, date, time, eid, location, description in PastEvents %}
+				<tr>
+					<td><p class="name"> <a href="/beers_alt/event/{{eid}}" style="color:#ff6666"> {{title}}</a></p></td>
+					<td><p>{{date}}</p></td>
+					<td><p>{{time}}</p></td>
+					<td><p>{{location}}</p></td>
+					<td><p>{{description}}</p></td>
+				</tr>
+				{% endfor %}
+			</table>
+			<!--li>
 				<ul>
-					{% for GRANT in PastEvents %}
-						<li> {{GRANT}} </li>
+					{% for title, date, time, eid, location, description in PastEvents %}
+						<li><p class="name"> <a href="/beers_alt/event/{{eid}}" style="color:#ff6666"> {{title}}</a> {{date}}, {{time}}, {{location}}, {{description}}</p></li>
 					{% endfor %}
 				</ul>
-			</li>
+			</li-->
 		</ul>
 
 

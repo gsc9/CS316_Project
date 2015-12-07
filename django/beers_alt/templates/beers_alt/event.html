@@ -12,19 +12,18 @@ Location: {{event.location}}<br/>
 Description: {{event.description}}<br/>
 </p>
 
-<p> Items: <br/>
-  <!-- <table border="1" style="width:100%">
-    <tr>
-      <td>Jill</td>
-      <td>Smith</td>
-      <td>50</td>
-    </tr>
-    <tr>
-      <td>Eve</td>
-      <td>Jackson</td>
-      <td>94</td>
-    </tr>
-  </table> -->
+<p> <B>Items: </b>
+  <table style="width:95%">
+    <tr align = left><th>Ingredient</th> <th>Unit Info</th> <th>Comments</th>
+      {% for title, eid1, eid2, name, quantity, units, comments, bringing, person in ingredient %}
+        <tr>
+          <td>{{name}}</td>
+          <td><b>{{person}}</b> is bringing <b>{{bringing}}</b> of the <b>{{quantity}}</b> {{units}} requested!</td>
+          <td>{{comments}}</td>
+
+        </tr>
+        {% endfor %}
+      </table>
 </p>
 
 {% endblock %}
