@@ -2,7 +2,7 @@ import re
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, render_to_response, get_object_or_404
 from beers_alt.models import Drinker
 from beers_alt.models import Registered_User
 from beers_alt.models import Event
@@ -15,6 +15,9 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
+def welcome(request):
+    return render(request, "beers_alt/welcome.html")
 
 def home_page(request, current_user):
     home_page = get_object_or_404(Registered_User, pk=current_user)
@@ -33,7 +36,7 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse(('beers_alt.views.all_drinkers')))
+            return HttpResponseRedirect(reverse(('beers_alt.views.welcome')))
     else:
         form = UserCreationForm()
     return render_to_response('beers_alt/register.html',
@@ -42,7 +45,7 @@ def register(request):
 
 def logout(request):
     auth_logout(request)
-    return HttpResponseRedirect(reverse('beers_alt.views.all_drinkers'))
+    return HttpResponseRedirect(reverse('beers_alt.views.welcome'))
 
 def all_drinkers(request):
     return render_to_response('beers_alt/all-drinkers.html',

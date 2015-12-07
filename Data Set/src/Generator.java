@@ -32,16 +32,15 @@ public class Generator {
 		tables[0] = new GenAuthUser(randomGenerator);
 		
 		String[] usernames = tables[0].extractData();
-		String[] emails = tables[0].extractMoreData();
 		
-		tables[1] = new GenRegisteredUser(randomGenerator, tableNames[1], usernames, emails);
+		tables[1] = new GenRegisteredUser(randomGenerator, tableNames[1], usernames);
 		tables[2] = new GenEvent(randomGenerator, tableNames[2], randomSentences);
 		tables[3] = new GenIngredient(tableNames[3]);
 		
 		String[] eids = tables[2].extractData();
 		String[] ingredients = tables[3].extractData();
 		
-		tables[4] = new GenPartOf(randomGenerator, tableNames[4], emails, eids);
+		tables[4] = new GenPartOf(randomGenerator, tableNames[4], usernames, eids);
 		tables[5] = new GenEventIngredient(randomGenerator, tableNames[5], randomSentences, eids, ingredients);
 		
 		String[] pairings = tables[4].extractData();
@@ -50,7 +49,14 @@ public class Generator {
 		tables[6] = new GenWhoBuys(randomGenerator, tableNames[6], randomSentences, pairings, eventIngred);
 		
 		String path = System.getProperty("user.dir");
-		FileWriter writer = new FileWriter(path + File.separator + "GEN-PRODUCTION.SQL");
+		FileWriter writer = new FileWriter(path + File.separator + "TABLE-CREATION.SQL");
+		for (int i = 1; i < tables.length; i++) {
+			writer.write(tables[i].myHardcoded + "\n");
+		}
+		writer.flush();
+		writer.close();
+		
+		writer = new FileWriter(path + File.separator + "GEN-PRODUCTION.SQL");
 		for (int i = 1; i < tables.length; i++) {
 			writer.write(tables[i].myData + "\n");
 		}

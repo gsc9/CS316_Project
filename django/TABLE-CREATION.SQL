@@ -1,0 +1,12 @@
+CREATE TABLE Registered_User (id INTEGER NOT NULL PRIMARY KEY, username VARCHAR(256) NOT NULL);
+
+CREATE TABLE Event (eid INTEGER NOT NULL UNIQUE PRIMARY KEY, title VARCHAR(256) NOT NULL, date DATE NOT NULL, time TIME NOT NULL, location VARCHAR(256) NOT NULL, description VARCHAR(400));
+
+CREATE TABLE Ingredient (ingredient_name VARCHAR(256) NOT NULL PRIMARY KEY);
+
+CREATE TABLE Part_Of (uid INTEGER NOT NULL UNIQUE PRIMARY KEY, id INTEGER NOT NULL REFERENCES Registered_User(id), eid INTEGER NOT NULL REFERENCES Event(eid), is_admin BOOLEAN NOT NULL, UNIQUE(id, eid));
+
+CREATE TABLE Event_Ingredient (uid INTEGER NOT NULL UNIQUE PRIMARY KEY, ingredient_name VARCHAR(256) NOT NULL REFERENCES Ingredient(ingredient_name), eid INTEGER NOT NULL REFERENCES Event(eid),  quantity INTEGER NOT NULL, units VARCHAR(256), comments VARCHAR(256), UNIQUE(ingredient_name, eid));
+
+CREATE TABLE Who_Buys (uid INTEGER NOT NULL UNIQUE PRIMARY KEY, id INTEGER NOT NULL REFERENCES Registered_User(id), ingredient_name VARCHAR(256) NOT NULL REFERENCES Ingredient(ingredient_name), eid INTEGER NOT NULL REFERENCES Event(eid), bringing INTEGER NOT NULL, user_comments VARCHAR(400), UNIQUE(id, ingredient_name, eid));
+

@@ -8,7 +8,7 @@ public class GenEventIngredient extends AbstractGen {
 	private HashMap<Integer, ArrayList<String>> myComplexData;
 	
 	public GenEventIngredient(Random randomGenerator, String table, String[] hostComments, String[] eids, String[] ingredients) throws IOException {
-		String hardcoded = "CREATE TABLE " + table + " (ingredient_name VARCHAR(256) NOT NULL REFERENCES Ingredient(ingredient_name), eid INTEGER NOT NULL REFERENCES Event(eid),  quantity INTEGER NOT NULL, units VARCHAR(256), comments VARCHAR(256), PRIMARY KEY(ingredient_name, eid));";
+		myHardcoded = "CREATE TABLE " + table + " (uid INTEGER NOT NULL UNIQUE PRIMARY KEY, ingredient_name VARCHAR(256) NOT NULL REFERENCES Ingredient(ingredient_name), eid INTEGER NOT NULL REFERENCES Event(eid),  quantity INTEGER NOT NULL, units VARCHAR(256), comments VARCHAR(256), UNIQUE(ingredient_name, eid));\n";
 		myComplexData = new HashMap<Integer, ArrayList<String>>();
 		int[] quantities = {1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 18, 20, 24};
 		String[] units = {"NULL", "NULL", "NULL", "NULL", "NULL", "'lbs'", "'kg'", "'bags'", "'cans'", "'packets'"};
@@ -17,7 +17,7 @@ public class GenEventIngredient extends AbstractGen {
 		int PRODUCTION_SIZE = 20000;
 		// CHANGE TABLE SIZE HERE!!!
 		
-		StringBuilder sBuilder = new StringBuilder(hardcoded + "\n");
+		StringBuilder sBuilder = new StringBuilder();
 		for (int i = 0; i < PRODUCTION_SIZE; i++) {
 			int commentIndex = randomGenerator.nextInt(hostComments.length * 5);
 			String comments = "NULL";
@@ -38,7 +38,7 @@ public class GenEventIngredient extends AbstractGen {
 			}
 			int quantityChoice = randomGenerator.nextInt(quantities.length);
 			int unitChoice = randomGenerator.nextInt(units.length);
-			sBuilder.append("INSERT INTO " + table + " VALUES('" + ingredients[ingredChoice] + "', " + eids[eventChoice] + ", " + quantities[quantityChoice] + ", " + units[unitChoice] + ", " + comments + ");\n");
+			sBuilder.append("INSERT INTO " + table + " VALUES(" + (i+1) + ", '" + ingredients[ingredChoice] + "', " + eids[eventChoice] + ", " + quantities[quantityChoice] + ", " + units[unitChoice] + ", " + comments + ");\n");
 		}
 		
 		myData = sBuilder.toString();

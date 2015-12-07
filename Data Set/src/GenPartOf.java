@@ -6,8 +6,8 @@ public class GenPartOf extends AbstractGen {
 	
 	private String[] myPairings;
 	
-	public GenPartOf(Random randomGenerator, String table, String[] emails, String[] eids) throws IOException {
-		String hardcoded = "CREATE TABLE " + table + " (username VARCHAR(256) NOT NULL REFERENCES Auth_User(username), eid INTEGER NOT NULL REFERENCES Event(eid), is_admin BOOLEAN NOT NULL, PRIMARY KEY(email, eid));";
+	public GenPartOf(Random randomGenerator, String table, String[] usernames, String[] eids) throws IOException {
+		myHardcoded = "CREATE TABLE " + table + " (uid INTEGER NOT NULL UNIQUE PRIMARY KEY, id INTEGER NOT NULL REFERENCES Registered_User(id), eid INTEGER NOT NULL REFERENCES Event(eid), is_admin BOOLEAN NOT NULL, UNIQUE(id, eid));\n";
 		HashSet<Integer> pastEids = new HashSet<Integer>();
 		
 		// CHANGE TABLE SIZE HERE!!!
@@ -16,12 +16,12 @@ public class GenPartOf extends AbstractGen {
 		
 		myPairings = new String[PRODUCTION_SIZE];
 		
-		StringBuilder sBuilder = new StringBuilder(hardcoded + "\n");
+		StringBuilder sBuilder = new StringBuilder();
 		for (int i = 0; i < PRODUCTION_SIZE; i++) {
 			String admin = "FALSE";
-			int chosenUser = randomGenerator.nextInt(emails.length / 2);
+			int chosenUser = randomGenerator.nextInt(usernames.length / 2);
 			int chosenEvent = randomGenerator.nextInt(eids.length / 2);
-			myPairings[i] = emails[chosenUser] + "', " + eids[chosenEvent];
+			myPairings[i] = chosenUser + ", " + eids[chosenEvent];
 			if (!pastEids.contains(chosenEvent)) {
 				pastEids.add(chosenEvent);
 				admin = "TRUE";
@@ -31,7 +31,7 @@ public class GenPartOf extends AbstractGen {
 					admin = "TRUE";
 				}
 			}
-			sBuilder.append("INSERT INTO " + table + " VALUES('" + myPairings[i] + ", " + admin + ");\n");
+			sBuilder.append("INSERT INTO " + table + " VALUES(" + (i+1) + ", " + myPairings[i] + ", " + admin + ");\n");
 		}
 		
 		myData = sBuilder.toString();
