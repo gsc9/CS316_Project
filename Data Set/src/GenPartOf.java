@@ -7,7 +7,6 @@ public class GenPartOf extends AbstractGen {
 	private String[] myPairings;
 	
 	public GenPartOf(Random randomGenerator, String table, String[] usernames, String[] eids) throws IOException {
-		myHardcoded = "CREATE TABLE " + table + " (uid INTEGER NOT NULL UNIQUE PRIMARY KEY, id INTEGER NOT NULL REFERENCES Registered_User(id), eid INTEGER NOT NULL REFERENCES Event(eid), is_admin BOOLEAN NOT NULL, UNIQUE(id, eid));\n";
 		HashSet<Integer> pastEids = new HashSet<Integer>();
 		
 		// CHANGE TABLE SIZE HERE!!!

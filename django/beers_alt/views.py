@@ -3,8 +3,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.shortcuts import render, render_to_response, get_object_or_404
-from beers_alt.models import Drinker
-from beers_alt.models import Registered_User
 from beers_alt.models import Event
 from beers_alt.models import Ingredient
 from beers_alt.models import Part_Of

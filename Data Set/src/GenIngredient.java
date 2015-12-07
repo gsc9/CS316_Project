@@ -7,8 +7,6 @@ public class GenIngredient extends AbstractGen {
 	private String[] myIngredients;
 	
 	protected GenIngredient(String table) throws IOException {
-		myHardcoded = "CREATE TABLE " + table + " (ingredient_name VARCHAR(256) NOT NULL PRIMARY KEY);\n";
-		
 		BufferedReader in = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/resources/Food.txt")));
 		StringBuilder sBuilder = new StringBuilder();
 		StringBuilder iBuilder = new StringBuilder();

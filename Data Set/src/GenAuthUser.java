@@ -10,7 +10,7 @@ public class GenAuthUser extends AbstractGen {
 	private String[] myEmails;
 	
 	public GenAuthUser(Random randomGenerator) throws IOException {
-		myHardcoded = "from django.contrib import admin\nfrom django.contrib.auth.models import User\n";
+		String hardcoded = "from django.contrib import admin\nfrom django.contrib.auth.models import User\n";
 		
 		String[] firstNames = firstNames();
 		String[] lastNames = lastNames();
@@ -23,7 +23,7 @@ public class GenAuthUser extends AbstractGen {
 		
 		StringBuilder uBuilder = new StringBuilder();
 		StringBuilder eBuilder = new StringBuilder();
-		StringBuilder sBuilder = new StringBuilder(myHardcoded);
+		StringBuilder sBuilder = new StringBuilder(hardcoded);
 		for (int i = 0; i < PRODUCTION_SIZE; i++) {
 			int firstIndex = randomGenerator.nextInt(firstNames.length - 1);
 			int lastIndex = randomGenerator.nextInt(lastNames.length - 1);

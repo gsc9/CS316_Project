@@ -21,7 +21,7 @@ public class Generator {
 	
 	public static void main(String[] args) {
 		int seed = 0;
-		String[] tables = {"Auth_User", "Registered_User", "Event", "Ingredient", "Part_Of", "Event_Ingredient", "Who_Buys"};
+		String[] tables = {"Auth_User", "Event", "Ingredient", "Part_Of", "Event_Ingredient", "Who_Buys"};
 		new Generator(seed, tables);
 	}
 	
@@ -33,30 +33,22 @@ public class Generator {
 		
 		String[] usernames = tables[0].extractData();
 		
-		tables[1] = new GenRegisteredUser(randomGenerator, tableNames[1], usernames);
-		tables[2] = new GenEvent(randomGenerator, tableNames[2], randomSentences);
-		tables[3] = new GenIngredient(tableNames[3]);
+		tables[1] = new GenEvent(randomGenerator, tableNames[1], randomSentences);
+		tables[2] = new GenIngredient(tableNames[2]);
 		
-		String[] eids = tables[2].extractData();
-		String[] ingredients = tables[3].extractData();
+		String[] eids = tables[1].extractData();
+		String[] ingredients = tables[2].extractData();
 		
-		tables[4] = new GenPartOf(randomGenerator, tableNames[4], usernames, eids);
-		tables[5] = new GenEventIngredient(randomGenerator, tableNames[5], randomSentences, eids, ingredients);
+		tables[3] = new GenPartOf(randomGenerator, tableNames[3], usernames, eids);
+		tables[4] = new GenEventIngredient(randomGenerator, tableNames[4], randomSentences, eids, ingredients);
 		
-		String[] pairings = tables[4].extractData();
-		HashMap<Integer, ArrayList<String>> eventIngred = tables[5].extractComplexData();
+		String[] pairings = tables[3].extractData();
+		HashMap<Integer, ArrayList<String>> eventIngred = tables[4].extractComplexData();
 		
-		tables[6] = new GenWhoBuys(randomGenerator, tableNames[6], randomSentences, pairings, eventIngred);
+		tables[5] = new GenWhoBuys(randomGenerator, tableNames[5], randomSentences, pairings, eventIngred);
 		
 		String path = System.getProperty("user.dir");
-		FileWriter writer = new FileWriter(path + File.separator + "TABLE-CREATION.SQL");
-		for (int i = 1; i < tables.length; i++) {
-			writer.write(tables[i].myHardcoded + "\n");
-		}
-		writer.flush();
-		writer.close();
-		
-		writer = new FileWriter(path + File.separator + "GEN-PRODUCTION.SQL");
+		FileWriter writer = new FileWriter(path + File.separator + "GEN-PRODUCTION.SQL");
 		for (int i = 1; i < tables.length; i++) {
 			writer.write(tables[i].myData + "\n");
 		}

@@ -8,7 +8,6 @@ public class GenEvent extends AbstractGen {
 	private String[] myEids;
 	
 	public GenEvent(Random randomGenerator, String table, String[] descriptions) throws IOException {
-		myHardcoded = "CREATE TABLE " + table + " (eid INTEGER NOT NULL UNIQUE PRIMARY KEY, title VARCHAR(256) NOT NULL, date DATE NOT NULL, time TIME NOT NULL, location VARCHAR(256) NOT NULL, description VARCHAR(400));\n";
 		String[] titles = titles(descriptions);
 		String[] locations = locations();
 		
