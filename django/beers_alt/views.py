@@ -18,8 +18,9 @@ from django.contrib.auth.forms import UserCreationForm
 def welcome(request):
     return render(request, "beers_alt/welcome.html")
 
+@login_required(login_url='/accounts/login/')
 def home_page(request, current_user):
-    home_page = get_object_or_404(Registered_User, pk=current_user)
+    home_page = request.user.get_username() #get_object_or_404(Registered_User, pk=current_user)
     return render_to_response('beers_alt/home-page.html',
     { 'userinfo' : home_page,
         },

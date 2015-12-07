@@ -19,12 +19,13 @@
     <a href="/beers_alt/"><img src="{{STATIC_URL}}beers_alt/img/title.png" height="50" width="230" style="float:left"/>  </a>
     
     {% if user.is_authenticated %}
-      <p class="name" style="text-align:right"> <font color="ff6666"> 
+      <p class="name" style="text-align:right"> <font color="#ff6666"> 
          {% for auth in social_auth.associated %}
            {{auth.user}} ({{auth.provider}}){% if forloop.last %}.{% else %}, {% endif %}
          {% empty %}
            {{user}}
          {% endfor %}
+    
          </font>
       </p>
     {% endif %}

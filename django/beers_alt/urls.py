@@ -3,6 +3,7 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('beers_alt.views',
     url(r'^$', 'welcome'),
     url(r'^home_page/(?P<current_user>[^/]+)$', 'home_page'), #grant = current
+ #   url(r'^home_page/user$', 'home_page'), #grant = current
     url(r'^all-drinkers$', 'all_drinkers'),
     url(r'^login$', 'login'),
     url(r'^register$', 'register'),
