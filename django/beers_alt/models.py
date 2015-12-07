@@ -11,8 +11,8 @@ class Drinker(models.Model):
 
 #CREATE TABLE Registered_User (email VARCHAR(256) NOT NULL PRIMARY KEY, username VARCHAR(256) NOT NULL);
 class Registered_User(models.Model):
-    email = models.CharField(max_length=256, primary_key=True)
-    username = models.CharField(max_length=256)
+    # email = models.CharField(max_length=256, primary_key=True)
+    username = models.CharField(max_length=256, primary_key=True)
     class Meta:
         db_table = u'registered_user'
     def __unicode__(self):

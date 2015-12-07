@@ -13,7 +13,22 @@
 	<div>
 		<ul style="list-style-type: none;">
 			<li><a href="http://www.google.com">Create Event</a></li>
-			<li><a href="http://www.google.com">My Events</a></li>
+			<li><b>My Future Events</b></li>
+			<li>
+				<ul>
+					{% for GRANT in FutureEvents %}
+						<li> {{GRANT}} </li>
+					{% endfor %}
+				</ul>
+			</li>
+			<li><b>My Past Events</b></li>
+			<li>
+				<ul>
+					{% for GRANT in PastEvents %}
+						<li> {{GRANT}} </li>
+					{% endfor %}
+				</ul>
+			</li>
 		</ul>
 
 
