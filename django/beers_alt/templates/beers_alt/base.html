@@ -1,4 +1,4 @@
-    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <style>
@@ -19,15 +19,17 @@
     <a href="/beers_alt/"><img src="{{STATIC_URL}}beers_alt/img/title.png" height="50" width="230" style="float:left"/>  </a>
     
     {% if user.is_authenticated %}
-      <p class="name" style="text-align:right"> <font color="#ff6666"> <a href="/beers_alt/home_page/user_home">
+      <p class="name" style="text-align:right"> <a href="/beers_alt/home_page/user_home" style="color:#ff6666">
          {% for auth in social_auth.associated %}
            {{auth.user}} ({{auth.provider}}){% if forloop.last %}.{% else %}, {% endif %}
          {% empty %}
            {{user}}
          {% endfor %}
          </a>
-         </font>
       </p>
+    {% else %}
+      <pre>
+      </pre>
     {% endif %}
     {% block login %}
       {% if not user.is_authenticated %}
@@ -36,8 +38,6 @@
         <p><a href="{% url 'beers_alt.views.logout' %}?next={{request.get_full_path}}" style="float:right">Logout</a></p>
       {% endif %}
     <pre>
-
-
     </pre>
     <hr/>
     {% endblock %}
