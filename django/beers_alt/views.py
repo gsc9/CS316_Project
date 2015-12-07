@@ -69,10 +69,19 @@ def drinker(request, drinker_name):
 
 def event(request, eid):
     event = get_object_or_404(Event, eid=eid)
-    items = Event_Ingredient.objects.get(eid=eid)
+    items = Event_Ingredient.objects.filter(eid=eid)
+    whobuys = Who_Buys.objects.filter(eid=eid)
+    partofs = Part_Of.objects.filter(eid=eid)
+    partOfUser = Part_Of.objects.filter(eid=eid).values_list('uid', flat=True)
+    registered_users = Registered_User.objects.filter(id__in=partOfUser)
     return render_to_response('beers_alt/event.html',
         { 'event' : event,
           'items' : items,
+          'whobuys' : whobuys,
+          'users' : registered_users,
+          'tests' : partofs,
+        #   'tests' : Event.objects.filter(eid=eid).select_related('part_of'),
+          # 'frequents' : Frequents.objects.raw('SELECT * FROM Frequents WHERE drinker = %s ORDER BY bar', [drinker.name])
         #   'beers' : Beer.objects.filter(likes__drinker__exact=drinker).order_by('name'),
         #   # 'frequents' : Frequents.objects.raw('SELECT * FROM Frequents WHERE drinker = %s ORDER BY bar', [drinker.name]),
         #   'frequents' : drinker.frequents_set.all().order_by('bar'),

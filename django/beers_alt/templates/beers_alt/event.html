@@ -12,14 +12,30 @@ Location: {{event.location}}<br/>
 Description: {{event.description}}<br/>
 </p>
 
+<p>
+{% for test in tests %}
+  Name: {{test.username}}<br/>
+{% endfor %}
+</p>
+
 <p> Items: <br/>
-  <ul>
-  {% for item in items %}
-    Item: {{item.ingredient_name}}<br/>
-  {% endfor %}
-  </ul>
-  <!-- <table border="1" style="width:100%">
+  <table border="1" style="width:100%">
     <tr>
+      <td>Item</td>
+      <td>Total</td>
+      <td>Remaining</td>
+      <td>User</td>
+      <td>Comments</td>
+    </tr>
+    {% for item in items %}
+      <tr>
+        <td>{{item.ingredient_name}}</td>
+        <td>{{item.quantity}}</td>
+        <td>{{item.ingredient_name}}</td>
+        <td>{{item.ingredient_name}}</td>
+      </tr>
+    {% endfor %}
+    <!-- <tr>
       <td>Jill</td>
       <td>Smith</td>
       <td>50</td>
@@ -28,8 +44,8 @@ Description: {{event.description}}<br/>
       <td>Eve</td>
       <td>Jackson</td>
       <td>94</td>
-    </tr>
-  </table> -->
+    </tr> -->
+  </table>
 </p>
 
 {% endblock %}
