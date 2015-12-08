@@ -5,6 +5,7 @@ urlpatterns = patterns('beers_alt.views',
     url(r'^home_page/(?P<current_user>[^/]+)$', 'home_page'), #grant = current
  #   url(r'^home_page/user$', 'home_page'), #grant = current
     url(r'^all-drinkers$', 'all_drinkers'),
+    url(r'^create-event$', 'create_event'),
     url(r'^login$', 'login'),
     url(r'^register$', 'register'),
     url(r'^logout$', 'logout'),
