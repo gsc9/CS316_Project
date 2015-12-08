@@ -9,7 +9,7 @@ from beers_alt.models import Part_Of
 from beers_alt.models import Event_Ingredient
 from beers_alt.models import Who_Buys
 from django.contrib.auth.models import User
-
+from .forms import EventForm
 
 from django.forms.models import ModelForm, inlineformset_factory
 from django.contrib.auth import logout as auth_logout
@@ -27,10 +27,10 @@ def welcome(request):
 def home_page(request, current_user):
     cursor = connection.cursor()
     home_page = request.user.get_username() #get_object_or_404(Registered_User, pk=current_user)
-    cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid, EVENT.location, EVENT.description  FROM Auth_User, Part_Of, Event where part_of.uid = Auth_User.id AND part_of.eid = event.eid and Auth_User.username = %s and Event.date >= %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
+    cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid, EVENT.location, EVENT.description  FROM Auth_User, Part_Of, Event where part_of.id = Auth_User.id AND part_of.eid = event.eid and Auth_User.username = %s and Event.date >= %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
     rows = cursor.fetchall()
-   
-    cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid, EVENT.location, EVENT.description FROM Auth_User, Part_Of, Event where part_of.uid = Auth_User.id AND part_of.eid = event.eid and Auth_User.username = %s and Event.date < %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
+
+    cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid, EVENT.location, EVENT.description FROM Auth_User, Part_Of, Event where part_of.id = Auth_User.id AND part_of.eid = event.eid and Auth_User.username = %s and Event.date < %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
     rows2 = cursor.fetchall()
 
     return render_to_response('beers_alt/home-page.html',
@@ -44,6 +44,31 @@ def home_page(request, current_user):
 
 def login(request):
     return render_to_response('beers_alt/login.html',
+        {},
+        context_instance=RequestContext(request))
+
+#incomplete/incorrect
+# def get_event(request):
+#     # if this is a POST request we need to process the form data
+#     if request.method == 'POST':
+#         # create a form instance and populate it with data from the request:
+#         form = EventForm(request.POST)
+#         # check whether it's valid:
+#         if form.is_valid():
+#             # process the data in form.cleaned_data as required
+#             # ...
+#             # redirect to a new URL:
+#             return HttpResponseRedirect('/thanks/')
+#
+#     # if a GET (or any other method) we'll create a blank form
+#     else:
+#         form = EventForm()
+#
+#     return render(request, 'create-event.html', {'form': form})
+
+@login_required(login_url='/accounts/login/')
+def create_event(request):
+    return render_to_response('beers_alt/create-event.html',
         {},
         context_instance=RequestContext(request))
 
@@ -92,7 +117,7 @@ def event(request, eid):
     cursor.execute('SELECT EVENT.title, EVENT.eid, EVENT_INGREDIENT.eid, EVENT_INGREDIENT.ingredient_name, EVENT_INGREDIENT.quantity, EVENT_INGREDIENT.units, EVENT_INGREDIENT.comments, WHO_BUYS.Bringing, Auth_User.username FROM EVENT, EVENT_INGREDIENT, WHO_BUYS, AUTH_USER WHERE EVENT.eid = EVENT_INGREDIENT.eid and EVENT.EID = %s and WHO_BUYS.id= Auth_User.id and WHO_BUYS.eid = EVENT.eid', [eid])
     rows = cursor.fetchall()
     return render_to_response('beers_alt/event.html',
-        { 'event' : event, 
+        { 'event' : event,
           'ingredient' : rows,
         },
         context_instance=RequestContext(request))

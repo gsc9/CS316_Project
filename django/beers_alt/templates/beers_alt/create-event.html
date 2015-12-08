@@ -1,0 +1,15 @@
+{% extends "beers_alt/base.html" %}
+
+{% block heading %}Create Event{% endblock %}
+
+{% block content %}
+
+<p>Event Title:
+  <form action="/your-name/" method="post">
+      <label for="event_title">Event Title: </label>
+      <input id="event_title" type="text" name="event_title" value="">
+      <input type="submit" value="OK">
+  </form>
+</p>
+
+{% endblock %}
