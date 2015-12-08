@@ -27,10 +27,10 @@ def welcome(request):
 def home_page(request, current_user):
     cursor = connection.cursor()
     home_page = request.user.get_username() #get_object_or_404(Registered_User, pk=current_user)
-    cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid, EVENT.location, EVENT.description  FROM Auth_User, Part_Of, Event where part_of.uid = Auth_User.id AND part_of.eid = event.eid and Auth_User.username = %s and Event.date >= %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
+    cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid, EVENT.location, EVENT.description  FROM Auth_User, Part_Of, Event where part_of.id = Auth_User.id AND part_of.eid = event.eid and Auth_User.username = %s and Event.date >= %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
     rows = cursor.fetchall()
    
-    cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid, EVENT.location, EVENT.description FROM Auth_User, Part_Of, Event where part_of.uid = Auth_User.id AND part_of.eid = event.eid and Auth_User.username = %s and Event.date < %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
+    cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid, EVENT.location, EVENT.description FROM Auth_User, Part_Of, Event where part_of.id = Auth_User.id AND part_of.eid = event.eid and Auth_User.username = %s and Event.date < %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
     rows2 = cursor.fetchall()
 
     return render_to_response('beers_alt/home-page.html',
