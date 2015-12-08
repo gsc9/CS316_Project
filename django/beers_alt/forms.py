@@ -1,5 +1,5 @@
 from django import forms
-from .models import Event
+from models import Event
 from .models import Part_Of
 from django.db.models import Max
 
@@ -14,7 +14,7 @@ from django.db.models import Max
 # 	def save(self, commit=True):
 # 		partof = super(PartofForm, self).save(commit=False)
 # 		partof.id = partof_id
-# 		partof.eid = 
+# 		partof.eid =
 
 class EventForm(forms.ModelForm):
     # event_title = forms.CharField(label='Event Title', max_length=256)
@@ -29,7 +29,10 @@ class EventForm(forms.ModelForm):
 
     def save(self, commit=True):
     	event = super(EventForm, self).save(commit=False)
-    	event.eid = int(Event.objects.all().aggregate(Max('eid'))[eid]) + 1
+    	# event.eid = int(Event.objects.all().aggregate(Max('eid'))[eid]) + 1
+        intHolder = Event.objects.all().aggregate(Max('eid'))['eid__max']
+        intHolder += 1
+        event.eid = intHolder
     	# event.eid = forms.AutoField(primary_key=True)
     	# event.title = event_title
     	# event.date = event_date
@@ -51,4 +54,3 @@ class InviteForm(forms.ModelForm):
 		if commit:
 			event.save()
 		return event
-
