@@ -1,0 +1,12 @@
+{% extends "beers_alt/base.html" %}
+
+{% block heading %}User Registration{% endblock %}
+
+{% block content %}
+
+<form action="{% url 'beers_alt.views.welcome' %}" method="post">
+  {% csrf_token %}
+  {{ InviteForm.as_p }}
+  <input type="submit" value="InviteForm">
+</form>
+{% endblock %}

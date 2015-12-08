@@ -10,13 +10,14 @@ from beers_alt.models import Event_Ingredient
 from beers_alt.models import Who_Buys
 from django.contrib.auth.models import User
 from .forms import EventForm
-
+from .forms import InviteForm
 from django.forms.models import ModelForm, inlineformset_factory
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.db import connection
 import time
+from django import forms
 
 from django.contrib.auth.models import User
 
@@ -29,13 +30,9 @@ def home_page(request, current_user):
     home_page = request.user.get_username() #get_object_or_404(Registered_User, pk=current_user)
     cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid, EVENT.location, EVENT.description  FROM Auth_User, Part_Of, Event where part_of.id = Auth_User.id AND part_of.eid = event.eid and Auth_User.username = %s and Event.date >= %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
     rows = cursor.fetchall()
-<<<<<<< HEAD
-   
-=======
-
->>>>>>> eb854239fb41a5dad3faabc4f50558795fb11d87
     cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid, EVENT.location, EVENT.description FROM Auth_User, Part_Of, Event where part_of.id = Auth_User.id AND part_of.eid = event.eid and Auth_User.username = %s and Event.date < %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
     rows2 = cursor.fetchall()
+
 
     return render_to_response('beers_alt/home-page.html',
     { 'userinfo' : home_page,
@@ -70,11 +67,37 @@ def login(request):
 #
 #     return render(request, 'create-event.html', {'form': form})
 
+
+
 @login_required(login_url='/accounts/login/')
 def create_event(request):
+    # title = forms.CharField(label=_("Title"), widget=forms.TextInput)
+    if request.method =='POST':
+        eform = EventForm(request.POST)
+        if eform.is_valid():
+            neweventid = eform.save().eid
+            print neweventid
+            return HttpResponseRedirect(reverse('beers_alt.views.invite_form', args=(str(neweventid),)))
+    else:
+        eform = EventForm()
     return render_to_response('beers_alt/create-event.html',
-        {},
+        { 'EventForm': eform, 
+          },
         context_instance=RequestContext(request))
+
+@login_required(login_url='/accounts/login/')
+def invite_form(request, eid):
+    if request.method == 'POST':
+        form = InviteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('beers_alt.views.welcome'))
+    else:
+        form = InviteForm()
+    return render_to_response('beers_alt/invite.html',
+        { 'InviteForm': form },
+        context_instance=RequestContext(request))
+    
 
 def register(request):
     if request.method == 'POST':

@@ -4,12 +4,18 @@
 
 {% block content %}
 
-<p>Event Title:
+<!--p>Event Title:
   <form action="/your-name/" method="post">
       <label for="event_title">Event Title: </label>
       <input id="event_title" type="text" name="event_title" value="">
       <input type="submit" value="OK">
   </form>
-</p>
+</p-->
+
+<form action="{% url 'beers_alt.views.create_event' %}" method="post">
+  {% csrf_token %}
+  {{ EventForm.as_p }}
+  <input type="submit" value="Create Event">
+</form>
 
 {% endblock %}
