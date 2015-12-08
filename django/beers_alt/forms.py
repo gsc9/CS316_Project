@@ -43,14 +43,6 @@ class EventForm(forms.ModelForm):
     		event.save()
     	return event
 
-class InviteForm(forms.ModelForm):
-
-	class Meta:
-		model = Part_Of
-		fields = {"uid", "pid", "eid", "is_admin"}
-
-	def save(self, commit=True):
-		event = super(InviteForm, self).save(commit=False)
-		if commit:
-			event.save()
-		return event
+#3 int and a boolean
+class InviteForm(forms.Form):
+    user_email = forms.CharField(label='User email', max_length=256)

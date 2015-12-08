@@ -18,6 +18,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db import connection
 import time
 from django import forms
+from django.db.models import Max
 
 from django.contrib.auth.models import User
 
@@ -67,8 +68,6 @@ def login(request):
 #
 #     return render(request, 'create-event.html', {'form': form})
 
-
-
 @login_required(login_url='/accounts/login/')
 def create_event(request):
     # title = forms.CharField(label=_("Title"), widget=forms.TextInput)
@@ -77,11 +76,23 @@ def create_event(request):
         if eform.is_valid():
             neweventid = eform.save().eid
             print neweventid
+
+            #get current user's id who created the event
+            current_user = request.user
+            current_user_id = current_user.id
+            print current_user_id
+            #to create new part of relation, increment uid
+            intHolder = Part_Of.objects.all().aggregate(Max('uid'))['uid__max']
+            intHolder += 1
+            print intHolder
+            #insert intholder, current user id, and true for admin
+            cursor = connection.cursor()
+            cursor.execute('INSERT INTO Part_Of VALUES (%s, %s, %s, %s)', (intHolder, current_user_id, neweventid, True))
             return HttpResponseRedirect(reverse('beers_alt.views.invite_form', args=(str(neweventid),)))
     else:
         eform = EventForm()
     return render_to_response('beers_alt/create-event.html',
-        { 'EventForm': eform, 
+        { 'EventForm': eform,
           },
         context_instance=RequestContext(request))
 
@@ -90,14 +101,16 @@ def invite_form(request, eid):
     if request.method == 'POST':
         form = InviteForm(request.POST)
         if form.is_valid():
+            print form.user_email
             form.save()
             return HttpResponseRedirect(reverse('beers_alt.views.welcome'))
+        print "not valid?"
     else:
         form = InviteForm()
     return render_to_response('beers_alt/invite.html',
         { 'InviteForm': form },
         context_instance=RequestContext(request))
-    
+
 
 def register(request):
     if request.method == 'POST':
