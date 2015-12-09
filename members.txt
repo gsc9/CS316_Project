@@ -1,37 +1,67 @@
-Names of group members + individual contributions to date:
-
 ==============
 Group Work
 ==============
 Date: 26 Sept 2015
-Time Spent: 2.5 Hours
-Details: Whole group met to plan project. Discussed project, drew E/R diagrams, designed schema, thought of new features, 
-mocked up interface on white board, figured what what language (django) to use for our website, set up database software on 
-our own computers, and created a github for the project.
+Time Spent: 2.5 hours
+Details: Whole group met to plan project. Discussed project, drew E/R diagrams, designed schema, thought of new features, mocked up interface on white board, figured what what platform (django) to use for our website, set up database software on our own computers, and created a github for the project (Annie, Grace, Grant, Martin).
 
 Date: 3 October 2015
 Time Spent: 1.5 hours
 Details: Modified E/R Diagram to take into account professor's feedback, planned for accounting for supply and demand of 
-ingredients, modified mockups, distributed final bits of work required to complete project milestone, came up with project 
+ingredients, modified mockups, distributed final bits of work required to complete project milestone, came up with project (Annie, Grace, Grant, Martin).
 
 Date: 31 Oct 2015
-Time Spent: 3 Hours
-Details: Spent a significant amount of time getting DJANGO setup with a clone of the beers database in order to build a foundation for our project. All members attended.
+Time Spent: 3 hours
+Details: Spent a significant amount of time getting django setup with a clone of the beers database in order to build a foundation for our project. All members attended (Annie, Grace, Grant, Martin).
 
 Date: 04 November 2015
-Time Spent: Hour 1.5
-Details: Finished up report for milestone 2, including updated E/R Schema, progress report, sample data creation, and setting up django.
+Time Spent: 1.5 hours
+Details: Finished up report for milestone 2, including updated E/R Schema, progress report, sample data creation, and setting up django (Annie, Grace, Grant, Martin).
 
+Date: 05 December 2015
+Time Spent: 5 hours
+Details: Met from 11am-4pm (Annie, Grace, Grant, Martin) - Worked on generating the data and putting it into the database. Began to solve issues with the schema and the django model (Annie, Grace, Grant, Martin).
+
+Date: 06 December 2015
+Time Spent: 7 hours
+Details: Met from 10am-5pm (Annie, Grace, Grant, Martin) - Working on getting the data into the database! Begin creating views and formatting the HTML. Began addressing issues with user login page.
+
+Date: 07 December 2015
+Time Spent: 9.25 hours total
+Details: 9:30am - 3:00pm (Grace, Grant) - Worked on home page, create events page
+3:00pm - 3:30pm (Grace, Grant, Martin) - Met with Professor Yang
+3:30pm - 6:00pm (Grace, Grant, Martin) - Working on importing data into the site and reworking schema
+10:00pm - 10:45pm (Annie, Grace, Grant, Martin) - Worked on create events and events page, as well as data import
+
+Date: 08 December 2015
+Time Spent: 11 hours total
+Details: 11:00am - 6:00pm (Grant, Grace) - Create event page, trying to figure out how to pass a variable between views
+2:00pm - 4:00pm (Grant, Grace) - Met with Professor Yang
+4:00pm - 6:00pm (Grant, Grace) - Invite user page
+11:00pm - 3:00am (Annie, Grace, Grant, Martin) - Polished app, stamped out bugs, wrote up report, prepared for demo
+
+Date: 09 December 2015
+Time Spent: 0.5 hours
+Details: 10:30am - 11:00am (Annie, Grace, Grant, Martin) - Demoed the project to Professor Yang, then departed our separate ways to prepare for the final exam at 7pm. It's been a good run!
+
+
+
+Specialties:
+Annie - Hard Core Coding! Fixing modes, setting up views, and making forms!
+Grace - Graphic Design, Logo Design, Getting Automatic Email To Work
+Grant - Documentation Design, Project Idea, User Login Page
+Martin - Data Set Generation, Data Import, and Injection Attack Research
+
+
+
+Contributions:
 Annie Yang - Made mockups and uploaded pictures to Google doc. Worked to set up django and push changes to git directory.
-Martin Tamayo - Database assumptions, formatted for Google doc, and SQL queries. Developed sample data creation program, created sql tables and queries, tested table assumptions.
-Grant Kelly - Wrote description of project on write-up and sample data. Worked on setting up Django.
 Grace Chen - Designed E/R diagrams, made group logo, and wrote schemas (although schemas were finalized by the whole group). Updated E/R diagrams, built beers_alt table and further investigated django. Made a HowTo.txt file for installing a new django app for beers_alt.
+Grant Kelly - Wrote description of project on write-up and sample data. Worked on setting up Django.
+Martin Tamayo - Database assumptions, formatted for Google doc, and SQL queries. Developed sample data creation program, created sql tables and queries, tested table assumptions.
+
 
 
 Project/App/Website Name
   CrowdCon
-	We have a logo with a kraken! 
-	We might name the feature that suggests ingredients the contribulator 
-  
-  
-  
+	We have a logo with a kraken!
