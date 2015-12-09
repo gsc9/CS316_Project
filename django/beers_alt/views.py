@@ -10,7 +10,7 @@ from beers_alt.models import Event_Ingredient
 from beers_alt.models import Who_Buys
 from django.contrib.auth.models import User
 from .forms import EventForm
-from .forms import InviteForm
+from .forms import InviteForm, BringForm
 from django.forms.models import ModelForm, inlineformset_factory
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
@@ -25,9 +25,9 @@ from django.contrib.auth.models import User
 class A:
     def __init__(self, eid1):
         self.eid = eid1
-
-
-
+class B:
+    def __init__(self, ingredientListId):
+        self.eid = IngredientListId
 
 def welcome(request):
     return render(request, "beers_alt/welcome.html")
@@ -82,7 +82,7 @@ def create_event(request):
         if eform.is_valid():
             neweventid = eform.save().eid
             A.eid = neweventid
-           
+
 
             #print neweventid
 
@@ -106,11 +106,56 @@ def create_event(request):
         context_instance=RequestContext(request))
 
 @login_required(login_url='/accounts/login/')
+def bring_form(request):
+    prev = request.META.get('HTTP_REFERER')
+    if "event" in prev:
+        indexEvent = prev.find('event') + 6
+        event_id = int(prev[indexEvent:])
+        current_user = request.user
+        current_user_id = current_user.id
+        intHolder = Who_Buys.objects.all().aggregate(Max('uid'))['uid__max']
+        intHolder += 1
+        form = BringForm(e_id = event_id)
+        if request.method == 'POST':
+            print "120"
+            form = BringForm(request.POST)
+            if form.is_valid():
+                # ingredient_name = forms.ModelChoiceField(queryset=Event_Ingredient.objects.all())
+                # quantity = forms.IntegerField()
+                # comments = forms.CharField(label='comments', max_length=300)
+ #                uid             | integer                | not null  | plain    |              |
+ # id              | integer                | not null  | plain    |              |
+ # ingredient_name | character varying(256) | not null  | extended |              |
+ # eid             | integer                | not null  | plain    |              |
+ # bringing        | integer                | not null  | plain    |              |
+ # user_comments   | character varying(400)
+                data = form.cleaned_data
+                ingredient = data.get('ingredient_name')[3:(len(ingredient)-3)]
+                quantity = int(data.get('quantity')[3:(len(quantity)-3)])
+                comments = data.get('comments')[3:(len(comments)-3)]
+                #(u'tuna',)
+                print ingredient
+                print quantity
+                print comments
+                cursor = connection.cursor()
+                #gathers all users who have the email address listed
+                #uid, id, ingredient name, eid, bringing, user_comments
+                # cursor.execute('INSERT INTO Who_Buys VALUES (%s, %s, %s, %s, %s, %s)', (intHolder, current_user_id, ingredient, event_id, quantity, comments)
+                return HttpResponseRedirect(reverse('beers_alt.views.welcome'))
+        else:
+            form = BringForm(e_id = event_id)
+    else:
+        form = BringForm(e_id = 0)
+    return render_to_response('beers_alt/bring-ingredient.html',
+        { 'BringForm': form },
+        context_instance=RequestContext(request))
+
+@login_required(login_url='/accounts/login/')
 def invite_form(request):
     # print "I love giraffffff so much it hurts"
-    # print "++++++++++++"   
+    # print "++++++++++++"
     # print A.eid
-    # print "++++++++++++"   
+    # print "++++++++++++"
     form = InviteForm()
     if request.method == 'POST':
         form = InviteForm(request.POST)
@@ -123,7 +168,7 @@ def invite_form(request):
             FoundUserIDs = cursor.fetchall()
 
             #please don't freak out, this is giving us a list of user ids, trust me
-            listOfIds = [] 
+            listOfIds = []
             for id9 in FoundUserIDs:
                 listOfIds.append(id9[0])
 
@@ -192,7 +237,7 @@ def drinker(request, drinker_name):
 def event(request, eid):
     event = get_object_or_404(Event, eid=eid)
     cursor = connection.cursor()
-    cursor.execute('SELECT EVENT.title, EVENT.eid, EVENT_INGREDIENT.eid, EVENT_INGREDIENT.ingredient_name, EVENT_INGREDIENT.quantity, EVENT_INGREDIENT.units, EVENT_INGREDIENT.comments, WHO_BUYS.Bringing, Auth_User.username FROM EVENT, EVENT_INGREDIENT, WHO_BUYS, AUTH_USER WHERE EVENT.eid = EVENT_INGREDIENT.eid and EVENT.EID = %s and WHO_BUYS.id= Auth_User.id and WHO_BUYS.eid = EVENT.eid', [eid])
+    cursor.execute('SELECT EVENT.title, EVENT.eid, EVENT_INGREDIENT.uid, EVENT_INGREDIENT.eid, EVENT_INGREDIENT.ingredient_name, EVENT_INGREDIENT.quantity, EVENT_INGREDIENT.units, EVENT_INGREDIENT.comments, WHO_BUYS.Bringing, Auth_User.username FROM EVENT, EVENT_INGREDIENT, WHO_BUYS, AUTH_USER WHERE EVENT.eid = EVENT_INGREDIENT.eid and EVENT.EID = %s and WHO_BUYS.id= Auth_User.id and WHO_BUYS.eid = EVENT.eid', [eid])
     rows = cursor.fetchall()
     return render_to_response('beers_alt/event.html',
         { 'event' : event,

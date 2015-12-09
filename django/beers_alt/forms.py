@@ -2,6 +2,7 @@ from django import forms
 from models import Event
 from .models import Part_Of
 from django.db.models import Max
+from beers_alt.models import Event_Ingredient
 
 from django.forms import EmailField
 
@@ -70,3 +71,21 @@ class EventForm(forms.ModelForm):
 class InviteForm(forms.Form):
     user_email = forms.CharField(label='User email', max_length=256)
 
+    def __init__(self, u, *args, **kwargs):
+        super(DropDownList, self).__init__(*args, **kwargs)
+
+# uid  |  id  |  ingredient_name   | eid  | bringing |                    user_comments
+class BringForm(forms.Form):
+    # ingredient_name = forms.ModelChoiceField(queryset=Event_Ingredient.objects.all().order_by('ingredient_name'))
+    ingredient_name = forms.ModelChoiceField(queryset=Event_Ingredient.objects.all())
+    quantity = forms.IntegerField()
+    comments = forms.CharField(label='comments', max_length=300)
+
+    def __init__(self,*args,**kwargs):
+        my_arg = kwargs.pop('e_id')
+        super(BringForm,self).__init__(*args,**kwargs)
+        self.fields['ingredient_name'].queryset = (Event_Ingredient.objects.values_list('ingredient_name').filter(eid=my_arg))
+
+    # print "LOOK HERE"
+    # print event_id
+    # ingredient_name = forms.ModelChoiceField(queryset=Event_Ingredient.objects.get(eid__exact=self.e_id))

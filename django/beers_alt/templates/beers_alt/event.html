@@ -12,15 +12,16 @@ Location: {{event.location}}<br/>
 Description: {{event.description}}<br/>
 </p>
 
+<p class="sign-up"> <a href="/beers_alt/bring-ingredient" style="color:#ff6666">Bring An Ingredient</a></p></td>
+
 <p> <B>Items: </b>
   <table style="width:95%">
     <tr align = left><th>Ingredient</th> <th>Unit Info</th> <th>Comments</th>
-      {% for title, eid1, eid2, name, quantity, units, comments, bringing, person in ingredient %}
+      {% for title, eid1, ingredient_id, eid2, name, quantity, units, comments, bringing, person in ingredient %}
         <tr>
           <td>{{name}}</td>
           <td><b>{{person}}</b> is bringing <b>{{bringing}}</b> of the <b>{{quantity}}</b> {{units}} requested!</td>
           <td>{{comments}}</td>
-
         </tr>
         {% endfor %}
       </table>

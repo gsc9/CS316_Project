@@ -1,0 +1,12 @@
+{% extends "beers_alt/base.html" %}
+
+{% block heading %}Bring Ingredient{% endblock %}
+
+{% block content %}
+
+<form action="{% url 'beers_alt.views.bring_form' %}" method="post">
+  {% csrf_token %}
+  {{ BringForm.as_p }}
+  <input type="submit" value="Bring!">
+</form>
+{% endblock %}
