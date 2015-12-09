@@ -34,11 +34,11 @@ Details: 9:30am - 3:00pm (Grace, Grant) - Worked on home page, create events pag
 10:00pm - 10:45pm (Annie, Grace, Grant, Martin) - Worked on create events and events page, as well as data import
 
 Date: 08 December 2015
-Time Spent: 11.5 hours total
+Time Spent: 12 hours total
 Details: 11:00am - 6:00pm (Grant, Grace) - Create event page, trying to figure out how to pass a variable between views
 2:00pm - 4:00pm (Grant, Grace) - Met with Professor Yang
 4:00pm - 6:00pm (Grant, Grace) - Invite user page
-11:00pm - 3:30am (Annie, Grace, Grant, Martin) - Polished app, stamped out bugs, wrote up report, prepared for demo
+11:00pm - 4:00am (Annie, Grace, Grant, Martin) - Polished app, stamped out bugs, wrote up report, prepared for demo
 
 Date: 09 December 2015
 Time Spent: 1.0 hours
