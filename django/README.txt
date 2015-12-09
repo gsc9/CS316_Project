@@ -45,3 +45,13 @@ Acquiring the production data set is a complicated process, so it is broken down
 14) It should now be possible to access the application using any browser in the VM at localhost:8000/beers_alt/
 
 15) It may be desirable to create a django superuser (after adding the production data set users in admin.py) by running the command: python manage.py createsuperuser. This will allow you to view the database at localhost:8000/admin/
+
+It is necessary to add entries to Auth_User via the lines of code in admin.py because this will encrypt the password. Adding users to Auth_User by simple SQL statements will insert the password into the table unencrypted, which causes difficulties when logging in because the password will still be decrypted when compared to the password entered by the user, and as a result, the passwords will not match and it will be impossible to log in.
+
+There are 10,000 test users in the production dataset. The first three have been copied down below, along with their passwords. Log in as these users to test the application with some data already added to the database in their name:
+
+ User Id  | Username         | Password
+------------------------------------------------
+ 1        | vada berkich     | redshift
+ 2        | elinor deniz     | lucas1
+ 3        | curt singo       | perkins
