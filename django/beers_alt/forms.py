@@ -72,9 +72,6 @@ class EventForm(forms.ModelForm):
 class InviteForm(forms.Form):
     user_email = forms.CharField(label='User email', max_length=256)
 
-    def __init__(self, u, *args, **kwargs):
-        super(DropDownList, self).__init__(*args, **kwargs)
-
 # uid  |  id  |  ingredient_name   | eid  | bringing |                    user_comments
 class BringForm(forms.Form):
     # for item in Event_Ingredient.objects.all():
