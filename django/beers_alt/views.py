@@ -2,7 +2,7 @@ import re
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
-from django.shortcuts import render, render_to_response, get_object_or_404
+from django.shortcuts import render, render_to_response, get_object_or_404, RequestContext
 from beers_alt.models import Event
 from beers_alt.models import Ingredient
 from beers_alt.models import Part_Of
@@ -19,6 +19,10 @@ from django.db import connection
 import time
 from django import forms
 from django.db.models import Max
+
+from django.conf import settings
+from django.contrib import messages
+from django.core.mail import send_mail, EmailMessage
 
 from django.contrib.auth.models import User
 
@@ -136,7 +140,14 @@ def invite_form(request):
 
                 #right now, do nothing, in 5 secs pls send email
             else:
-                print "hi"
+                subject = 'CrowdCon Invitation'
+                message = 'Someone has invited you to their event on CrowdCon!'
+                msg = EmailMessage(subject, message, to=[email])
+                msg.send()
+                # subject = 'CrowdCon Invitation'
+                # message = 'test message! jdfghkjfdhg'
+                # from_email = settings.EMAIL_HOST_USER;
+                # send_mail(subject, message, from_email, ['special.cg00@gmail.com'], fail_silently=False)
                 #for loop through each, with its own cursor statement to add to part_of
 
 
