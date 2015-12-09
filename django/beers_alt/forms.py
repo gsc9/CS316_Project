@@ -3,6 +3,7 @@ from models import Event
 from .models import Part_Of
 from django.db.models import Max
 from beers_alt.models import Event_Ingredient
+from beers_alt.models import Who_Buys
 
 from django.forms import EmailField
 
@@ -76,16 +77,21 @@ class InviteForm(forms.Form):
 
 # uid  |  id  |  ingredient_name   | eid  | bringing |                    user_comments
 class BringForm(forms.Form):
-    # ingredient_name = forms.ModelChoiceField(queryset=Event_Ingredient.objects.all().order_by('ingredient_name'))
-    ingredient_name = forms.ModelChoiceField(queryset=Event_Ingredient.objects.all())
+    # for item in Event_Ingredient.objects.all():
+    #     list.append([item.ingredient_name,])
+    #     print item.ingredient_name
+    # placeholder = []
+    # placeholder_list = []
+    # for item in placeholder:
+    #     string_item = str(item)
+    #     new_item = string_item[3:(len(string_item)-3)]
+    #     placeholder_list.append(new_item)
+    # ingredient_name = forms.ChoiceField(choices=placeholder_list)
+    ingredient_name = forms.ModelChoiceField(Event_Ingredient.objects.all())
     quantity = forms.IntegerField()
     comments = forms.CharField(label='comments', max_length=300)
 
     def __init__(self,*args,**kwargs):
         my_arg = kwargs.pop('e_id')
         super(BringForm,self).__init__(*args,**kwargs)
-        self.fields['ingredient_name'].queryset = (Event_Ingredient.objects.values_list('ingredient_name').filter(eid=my_arg))
-
-    # print "LOOK HERE"
-    # print event_id
-    # ingredient_name = forms.ModelChoiceField(queryset=Event_Ingredient.objects.get(eid__exact=self.e_id))
+        self.fields['ingredient_name'].queryset = (Event_Ingredient.objects.values('ingredient_name').filter(eid=my_arg))

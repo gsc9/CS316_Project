@@ -26,8 +26,8 @@ class A:
     def __init__(self, eid1):
         self.eid = eid1
 class B:
-    def __init__(self, ingredientListId):
-        self.eid = IngredientListId
+    def __init__(self, eid2):
+        self.eid = eid2
 
 def welcome(request):
     return render(request, "beers_alt/welcome.html")
@@ -111,15 +111,12 @@ def bring_form(request):
     if "event" in prev:
         indexEvent = prev.find('event') + 6
         event_id = int(prev[indexEvent:])
-        current_user = request.user
-        current_user_id = current_user.id
-        intHolder = Who_Buys.objects.all().aggregate(Max('uid'))['uid__max']
-        intHolder += 1
-        form = BringForm(e_id = event_id)
+        B.eid = event_id
+        form = BringForm(e_id = B.eid)
+    else:
         if request.method == 'POST':
-            print "120"
-            form = BringForm(request.POST)
-            if form.is_valid():
+            form = BringForm(request.POST, e_id=B.eid)
+            # if form.is_valid():
                 # ingredient_name = forms.ModelChoiceField(queryset=Event_Ingredient.objects.all())
                 # quantity = forms.IntegerField()
                 # comments = forms.CharField(label='comments', max_length=300)
@@ -129,23 +126,30 @@ def bring_form(request):
  # eid             | integer                | not null  | plain    |              |
  # bringing        | integer                | not null  | plain    |              |
  # user_comments   | character varying(400)
-                data = form.cleaned_data
-                ingredient = data.get('ingredient_name')[3:(len(ingredient)-3)]
-                quantity = int(data.get('quantity')[3:(len(quantity)-3)])
-                comments = data.get('comments')[3:(len(comments)-3)]
-                #(u'tuna',)
-                print ingredient
-                print quantity
-                print comments
-                cursor = connection.cursor()
-                #gathers all users who have the email address listed
-                #uid, id, ingredient name, eid, bringing, user_comments
-                # cursor.execute('INSERT INTO Who_Buys VALUES (%s, %s, %s, %s, %s, %s)', (intHolder, current_user_id, ingredient, event_id, quantity, comments)
-                return HttpResponseRedirect(reverse('beers_alt.views.welcome'))
+            current_user = request.user
+            current_user_id = current_user.id
+            intHolder = Who_Buys.objects.all().aggregate(Max('uid'))['uid__max']
+            intHolder += 1
+            # data = form.cleaned_data['qua']
+            #HARDCODED
+            ingredient = "tuna" #data.get('ingredient_name')[3:(len(ingredient)-3)]
+            quantity = 8 #int((data.get('quantity'))[3:(len(quantity)-3)])
+            comments = "Test" #data.get('comments')[3:(len(comments)-3)]
+            #(u'tuna',)
+            print ingredient
+            print quantity
+            print comments
+            cursor = connection.cursor()
+            #gathers all users who have the email address listed
+            #uid, id, ingredient name, eid, bringing, user_comments
+            cursor.execute('INSERT INTO Who_Buys VALUES (%s, %s, %s, %s, %s, %s)', (intHolder, current_user_id, ingredient, B.eid, quantity, comments))
+            return HttpResponseRedirect(reverse('beers_alt.views.welcome'))
+            # else:
+            #     print "Form not valid"
+            #     form = BringForm(e_id=B.eid)
         else:
-            form = BringForm(e_id = event_id)
-    else:
-        form = BringForm(e_id = 0)
+            print "Request not post"
+            form = BringForm(e_id = B.eid)
     return render_to_response('beers_alt/bring-ingredient.html',
         { 'BringForm': form },
         context_instance=RequestContext(request))
