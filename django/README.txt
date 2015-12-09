@@ -6,7 +6,7 @@ Martin Tamayo
 
 Final README
 
-Acquire the production data set is a complicated process, so it is broken down into steps below. Make sure that all files are in a directory accessible from the vagrant virtual machine.
+Acquiring the production data set is a complicated process, so it is broken down into steps below. Make sure that all files are in a directory accessible from the vagrant virtual machine.
 
 1) Run Generate Data.jar. This will output files admin.py and GEN-PRODUCTION.SQL to the directory that Generate Data.jar is in.
 
