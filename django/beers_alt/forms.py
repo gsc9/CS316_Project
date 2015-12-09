@@ -87,6 +87,12 @@ class BringForm(forms.Form):
     #     new_item = string_item[3:(len(string_item)-3)]
     #     placeholder_list.append(new_item)
     # ingredient_name = forms.ChoiceField(choices=placeholder_list)
+    # curr_eid = 0
+    # ingredients = Event_Ingredient.objects.filter(eid=curr_eid).values('ingredient_name')
+    # list = []
+    # for item in ingredients:
+    #     list.add(ingredients['ingredient_name'])
+    # print list
     ingredient_name = forms.ModelChoiceField(Event_Ingredient.objects.all())
     quantity = forms.IntegerField()
     comments = forms.CharField(label='comments', max_length=300)
@@ -94,4 +100,5 @@ class BringForm(forms.Form):
     def __init__(self,*args,**kwargs):
         my_arg = kwargs.pop('e_id')
         super(BringForm,self).__init__(*args,**kwargs)
-        self.fields['ingredient_name'].queryset = (Event_Ingredient.objects.values('ingredient_name').filter(eid=my_arg))
+        # self.fields['curr_eid'] = my_arg
+        self.fields['ingredient_name'].queryset = (Event_Ingredient.objects.values_list('ingredient_name', flat=True).filter(eid=my_arg))
