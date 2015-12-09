@@ -3,6 +3,14 @@ from models import Event
 from .models import Part_Of
 from django.db.models import Max
 
+from django.forms import EmailField
+
+from django.utils.translation import ugettext_lazy as _
+
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
+
 # class PartofForm(forms.Form):
 # 	partof_id = forms.IntegerField()
 # 	partof_eid = forms.IntegerField()
@@ -15,6 +23,21 @@ from django.db.models import Max
 # 		partof = super(PartofForm, self).save(commit=False)
 # 		partof.id = partof_id
 # 		partof.eid =
+
+class UserCreationForm(UserCreationForm):
+    email = EmailField(label=_("Email address"), required=True)
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
+
+    def save(self, commit=True):
+        user = super(UserCreationForm, self).save(commit=False)
+        user.email = self.cleaned_data["email"]
+        if commit:
+            user.save()
+        return user
+
 
 class EventForm(forms.ModelForm):
     # event_title = forms.CharField(label='Event Title', max_length=256)
@@ -29,7 +52,7 @@ class EventForm(forms.ModelForm):
 
     def save(self, commit=True):
     	event = super(EventForm, self).save(commit=False)
-    	# event.eid = int(Event.objects.all().aggregate(Max('eid'))[eid]) + 1
+    	# event.dd = int(Event.objects.all().aggregate(Max('eid'))[eid]) + 1
         intHolder = Event.objects.all().aggregate(Max('eid'))['eid__max']
         intHolder += 1
         event.eid = intHolder
@@ -46,3 +69,4 @@ class EventForm(forms.ModelForm):
 #3 int and a boolean
 class InviteForm(forms.Form):
     user_email = forms.CharField(label='User email', max_length=256)
+

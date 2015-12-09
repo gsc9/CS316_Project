@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<form action="{% url 'beers_alt.views.welcome' %}" method="post">
+<form action="{% url 'beers_alt.views.invite_form' %}" method="post">
   {% csrf_token %}
   {{ InviteForm.as_p }}
   <input type="submit" value="Invite!">

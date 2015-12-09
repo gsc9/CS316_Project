@@ -14,13 +14,20 @@ from .forms import InviteForm
 from django.forms.models import ModelForm, inlineformset_factory
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from beers_alt.forms import UserCreationForm
 from django.db import connection
 import time
 from django import forms
 from django.db.models import Max
 
 from django.contrib.auth.models import User
+
+class A:
+    def __init__(self, eid1):
+        self.eid = eid1
+
+
+
 
 def welcome(request):
     return render(request, "beers_alt/welcome.html")
@@ -33,7 +40,6 @@ def home_page(request, current_user):
     rows = cursor.fetchall()
     cursor.execute('SELECT Event.Title, Event.date, Event.time, Event.eid, EVENT.location, EVENT.description FROM Auth_User, Part_Of, Event where part_of.id = Auth_User.id AND part_of.eid = event.eid and Auth_User.username = %s and Event.date < %s ORDER BY Event.Date, EVENT.TIME', [request.user.get_username(), time.strftime("%d/%m/%Y")])
     rows2 = cursor.fetchall()
-
 
     return render_to_response('beers_alt/home-page.html',
     { 'userinfo' : home_page,
@@ -75,20 +81,23 @@ def create_event(request):
         eform = EventForm(request.POST)
         if eform.is_valid():
             neweventid = eform.save().eid
-            print neweventid
+            A.eid = neweventid
+           
+
+            #print neweventid
 
             #get current user's id who created the event
             current_user = request.user
             current_user_id = current_user.id
-            print current_user_id
+            #print current_user_id
             #to create new part of relation, increment uid
             intHolder = Part_Of.objects.all().aggregate(Max('uid'))['uid__max']
             intHolder += 1
-            print intHolder
+            #print intHolder
             #insert intholder, current user id, and true for admin
             cursor = connection.cursor()
             cursor.execute('INSERT INTO Part_Of VALUES (%s, %s, %s, %s)', (intHolder, current_user_id, neweventid, True))
-            return HttpResponseRedirect(reverse('beers_alt.views.invite_form', args=(str(neweventid),)))
+            return HttpResponseRedirect(reverse('beers_alt.views.invite_form')) #, args=(str(neweventid),)
     else:
         eform = EventForm()
     return render_to_response('beers_alt/create-event.html',
@@ -97,15 +106,44 @@ def create_event(request):
         context_instance=RequestContext(request))
 
 @login_required(login_url='/accounts/login/')
-def invite_form(request, eid):
+def invite_form(request):
+    # print "I love giraffffff so much it hurts"
+    # print "++++++++++++"   
+    # print A.eid
+    # print "++++++++++++"   
+    form = InviteForm()
     if request.method == 'POST':
         form = InviteForm(request.POST)
         if form.is_valid():
-            print form.user_email
-            form.save()
+            data = form.cleaned_data
+            email = data.get('user_email')
+            cursor = connection.cursor()
+            #gathers all users who have the email address listed
+            cursor.execute('SELECT id FROM auth_user WHERE email = %s', [email])
+            FoundUserIDs = cursor.fetchall()
+
+            #please don't freak out, this is giving us a list of user ids, trust me
+            listOfIds = [] 
+            for id9 in FoundUserIDs:
+                listOfIds.append(id9[0])
+
+            if len(listOfIds) > 0:
+                intHolder = Part_Of.objects.all().aggregate(Max('uid'))['uid__max']
+                for current_user_id in listOfIds:
+                    intHolder += 1
+                    cursor = connection.cursor()
+                    cursor.execute('INSERT INTO Part_Of VALUES (%s, %s, %s, %s)', (intHolder, current_user_id, A.eid, False))
+
+                #right now, do nothing, in 5 secs pls send email
+            else:
+                print "hi"
+                #for loop through each, with its own cursor statement to add to part_of
+
+
             return HttpResponseRedirect(reverse('beers_alt.views.welcome'))
         print "not valid?"
     else:
+        print "cat cat"
         form = InviteForm()
     return render_to_response('beers_alt/invite.html',
         { 'InviteForm': form },
