@@ -10,7 +10,7 @@ from beers_alt.models import Event_Ingredient
 from beers_alt.models import Who_Buys
 from django.contrib.auth.models import User
 from .forms import EventForm
-from .forms import InviteForm, BringForm
+from .forms import InviteForm, BringForm, AddForm
 from django.forms.models import ModelForm, inlineformset_factory
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
@@ -172,6 +172,71 @@ def bring_form(request):
             form = BringForm(e_id = B.eid)
     return render_to_response('beers_alt/bring-ingredient.html',
         { 'BringForm': form },
+        context_instance=RequestContext(request))
+
+@login_required(login_url='/accounts/login/')
+def add_form(request):
+    prev = request.META.get('HTTP_REFERER')
+    if "event" in prev:
+        indexEvent = prev.find('event') + 6
+        event_id = int(prev[indexEvent:])
+        B.eid = event_id
+        form = AddForm()
+    else:
+        if request.method == 'POST':
+            form = AddForm(request.POST)
+            if form.is_valid():
+                current_user = request.user
+                current_user_id = current_user.id
+                intHolder = Who_Buys.objects.all().aggregate(Max('uid'))['uid__max']
+                intHolder += 1
+                intHolder2 = Event_Ingredient.objects.all().aggregate(Max('uid'))['uid__max']
+                intHolder2 += 1
+                data = form.cleaned_data
+                #HARDCODED
+                ingredient = str(data.get('ingredient_name'))
+                quantity = int(data.get('quantity'))
+                comments = data.get('comments')
+                units = data.get('units')
+                print ingredient
+                print type(ingredient)
+                print quantity
+                print comments
+                cursor = connection.cursor()
+                #Event_Ingredient.objects.values_list('ingredient_name', flat=True).filter(eid=my_arg)
+                curringredients = Ingredient.objects.values_list('ingredient_name', flat=True).filter()
+                if ingredient not in curringredients:
+                    print "Add!"
+                    cursor1 = connection.cursor()
+                    cursor1.execute('INSERT INTO Ingredient VALUES (%s)', (str(ingredient)))
+                cursor.execute('INSERT INTO Event_Ingredient VALUES (%s, %s, %s, %s, %s, %s)', (intHolder2, ingredient, B.eid, quantity, units, comments))
+                return HttpResponseRedirect(reverse('beers_alt.views.welcome'))
+            else:
+                print "Form not valid"
+                current_user = request.user
+                current_user_id = current_user.id
+                intHolder = Who_Buys.objects.all().aggregate(Max('uid'))['uid__max']
+                intHolder += 1
+                ingredient = str(form.data['ingredient_name'])
+                quantity = int(form.data['quantity'])
+                comments = str(form.data['comments'])
+                units = str(form.data['units'])
+                print ingredient
+                print quantity
+                print comments
+                #(u'tuna',)
+                cursor = connection.cursor()
+                #gathers all users who have the email address listed
+                #uid, id, ingredient name, eid, bringing, user_comments
+                cursor.execute('INSERT INTO Ingredient VALUES %s', ingredient)
+                cursor.execute('INSERT INTO Event_Ingredient VALUES (%s, %s, %s, %s, %s, %s)', (intHolder2, ingredient, B.eid, quantity, units, comments))
+                return HttpResponseRedirect(reverse('beers_alt.views.welcome'))
+                # form = BringForm(e_id=B.eid)
+        else:
+            print "Request not post"
+            form = AddForm()
+    return render_to_response('beers_alt/add-ingredient.html',
+        { 'AddForm': form },
         context_instance=RequestContext(request))
 
 @login_required(login_url='/accounts/login/')

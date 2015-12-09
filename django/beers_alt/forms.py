@@ -74,22 +74,6 @@ class InviteForm(forms.Form):
 
 # uid  |  id  |  ingredient_name   | eid  | bringing |                    user_comments
 class BringForm(forms.Form):
-    # for item in Event_Ingredient.objects.all():
-    #     list.append([item.ingredient_name,])
-    #     print item.ingredient_name
-    # placeholder = []
-    # placeholder_list = []
-    # for item in placeholder:
-    #     string_item = str(item)
-    #     new_item = string_item[3:(len(string_item)-3)]
-    #     placeholder_list.append(new_item)
-    # ingredient_name = forms.ChoiceField(choices=placeholder_list)
-    # curr_eid = 0
-    # ingredients = Event_Ingredient.objects.filter(eid=curr_eid).values('ingredient_name')
-    # list = []
-    # for item in ingredients:
-    #     list.add(ingredients['ingredient_name'])
-    # print list
     ingredient_name = forms.ModelChoiceField(Event_Ingredient.objects.all())
     quantity = forms.IntegerField()
     comments = forms.CharField(label='comments', max_length=300)
@@ -99,3 +83,9 @@ class BringForm(forms.Form):
         super(BringForm,self).__init__(*args,**kwargs)
         # self.fields['curr_eid'] = my_arg
         self.fields['ingredient_name'].queryset = (Event_Ingredient.objects.values_list('ingredient_name', flat=True).filter(eid=my_arg))
+
+class AddForm(forms.Form):
+    ingredient_name = forms.CharField(label='New Ingredient', max_length=300)
+    quantity = forms.IntegerField()
+    units = forms.CharField(label='Units', max_length=256)
+    comments = forms.CharField(label='Comments', max_length=300)
