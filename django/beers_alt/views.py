@@ -141,7 +141,7 @@ def invite_form(request):
                 #right now, do nothing, in 5 secs pls send email
             else:
                 subject = 'CrowdCon Invitation'
-                message = 'Someone has invited you to their event on CrowdCon!'
+                message = '%s has invited you to their event on CrowdCon! But you do not have an account... so create one at crowdcon.com and let %s know! \nThanks,\nThe CrowdCon Team' % (request.user, request.user)
                 msg = EmailMessage(subject, message, to=[email])
                 msg.send()
                 # subject = 'CrowdCon Invitation'
